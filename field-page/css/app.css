@@ -1,0 +1,290 @@
+/* SPDX-FileCopyrightText: 2026 Dīvi contributors */
+/* SPDX-License-Identifier: AGPL-3.0-or-later */
+/* Layout and components of the field page, in the same technical look as the desktop program:
+   one monospace font, 1px borders around every block, square corners, no shadows or gradients,
+   hovers that invert at once. Every colour is a variable from css/theme.css, which is generated
+   from the shared palette (light and dark): nothing here hard-codes a colour.
+   One difference from the desktop: buttons and rows stay at least 40px tall, because this page is
+   used outdoors, in sunlight and sometimes with gloves. */
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("../fonts/jetbrains-mono-latin.woff2") format("woff2");
+  font-weight: 100 800;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304,
+    U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {  /* the "ī" of Dīvi, and other accented letters */
+  font-family: "JetBrains Mono";
+  src: url("../fonts/jetbrains-mono-latin-ext.woff2") format("woff2");
+  font-weight: 100 800;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308,
+    U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113,
+    U+2C60-2C7F, U+A720-A7FF;
+}
+
+:root {
+  --nav-h: 56px;
+  --mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", Consolas, "Liberation Mono", monospace;
+  --line: var(--border);
+  --edge: var(--border-strong);
+  --tap: 40px;
+}
+*, *::before, *::after {
+  box-sizing: border-box;
+  border-radius: 0;
+  box-shadow: none;
+  text-shadow: none;
+  transition: none;
+}
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.5 var(--mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1, "zero" 1;
+  padding-bottom: calc(var(--nav-h) + 8px);
+  padding-bottom: calc(var(--nav-h) + env(safe-area-inset-bottom) + 8px);
+}
+button, input, select, textarea { font-family: var(--mono); }
+
+/* small labels, tags and headers: uppercase with wide tracking */
+.label-caps, h2, h3, .tabs a span, button, .field .label, dl.results dt, .count, .brand p {
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* ---- header: the logo, the name, a light/dark switch, in bordered cells */
+.top {
+  display: flex;
+  align-items: stretch;
+  background: var(--surface);
+  color: var(--text);
+  padding-top: 0;
+  padding-top: env(safe-area-inset-top);
+  border-bottom: 1px solid var(--line);
+}
+.brand {
+  display: flex; align-items: center; gap: 8px;
+  flex: 1; min-width: 0;
+  padding: 6px 10px;
+  color: inherit; text-decoration: none;
+}
+.brand h1 { margin: 0; font-size: 1.2rem; line-height: 1.2; letter-spacing: 0.18em; text-transform: uppercase; }
+.brand p { margin: 0; font-size: 0.7rem; color: var(--muted); line-height: 1.25; }
+.logo { display: block; width: 34px; height: auto; flex: none; }
+.logo-dark, .icon-sun { display: none; }
+:root[data-theme="dark"] .logo-light, :root[data-theme="dark"] .icon-moon { display: none; }
+:root[data-theme="dark"] .logo-dark, :root[data-theme="dark"] .icon-sun { display: block; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .logo-light, :root:not([data-theme]) .icon-moon { display: none; }
+  :root:not([data-theme]) .logo-dark, :root:not([data-theme]) .icon-sun { display: block; }
+}
+button.theme {
+  flex: none;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 48px; min-height: 48px;
+  padding: 0;
+  border: 0;
+  border-left: 1px solid var(--line);
+  color: var(--text);
+  background: transparent;
+}
+button.theme svg { width: 20px; height: 20px; }
+
+main { max-width: 42rem; margin: 0 auto; padding: 8px 8px 0; outline: none; }
+h2 { font-size: 1.25rem; margin: 4px 0; padding: 6px 10px; border: 1px solid var(--line); background: var(--surface); }
+h3 { font-size: 1.05rem; margin: 0 0 6px; }
+p { margin: 6px 0; }
+a { color: var(--primary-text); }
+.hint { color: var(--muted); font-size: 0.9rem; margin: 4px 0 8px; }
+.problem { color: var(--danger-text); font-weight: 600; }
+.notice {
+  background: var(--caution-bg);
+  border: 1px solid var(--highlight);
+  padding: 6px 8px;
+  margin: 8px 0;
+}
+
+/* ---- cards and the checklists */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  padding: 8px;
+  margin: 8px 0;
+}
+details.card { padding: 0; }
+details.card > summary { list-style: none; cursor: pointer; padding: 8px; min-height: 48px; }
+details.card > summary:hover { background: var(--text); color: var(--bg); }
+details.card > summary:hover .count { color: var(--bg); }
+details.card > summary::-webkit-details-marker { display: none; }
+/* the layout lives on a div inside the summary: grid on <summary> itself is unreliable in some browsers */
+details.card > summary .head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 10px; }
+details.card > summary .title { font-weight: 700; font-size: 1.1rem; flex: 1 1 auto; }
+details.card > summary .count { color: var(--muted); font-size: 0.8rem; white-space: nowrap; flex: 0 0 auto; }
+details.card > summary progress {
+  flex: 0 0 100%; width: 100%; height: 6px;
+  accent-color: var(--primary-text);
+  border: 1px solid var(--line);
+  appearance: none; -webkit-appearance: none;
+  background: var(--surface-2);
+}
+progress::-webkit-progress-bar { background: var(--surface-2); }
+progress::-webkit-progress-value { background: var(--primary); }
+progress::-moz-progress-bar { background: var(--primary); }
+details.card[open] > summary { border-bottom: 1px solid var(--line); }
+details.card > .hint, details.card > .items, details.card > .actions { margin-left: 8px; margin-right: 8px; }
+details.card > .actions { margin-bottom: 8px; }
+
+.items { display: grid; }
+.item {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 8px;
+  align-items: start;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--line);
+  min-height: 44px;
+}
+.item:last-child { border-bottom: 0; }
+.item input[type="checkbox"] { width: 24px; height: 24px; margin: 1px 0 0; accent-color: var(--primary-text); }
+.item .text small { display: block; color: var(--muted); font-size: 0.85rem; margin-top: 2px; }
+.item input:checked + .text { opacity: 0.6; text-decoration: line-through; }
+
+/* ---- forms: labelled 1px boxes */
+.grid { display: grid; gap: 6px; grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr)); }
+.field { display: grid; gap: 0; align-content: start; }
+.field .label {
+  font-weight: 600; font-size: 0.72rem; color: var(--muted);
+  border: 1px solid var(--edge); border-bottom: 0;
+  padding: 2px 8px;
+  background: var(--surface);
+}
+.field small { color: var(--muted); font-size: 0.8rem; margin-top: 2px; }
+.control { display: flex; align-items: stretch; gap: 0; }
+.control .unit {
+  display: flex; align-items: center;
+  color: var(--muted); white-space: nowrap; font-size: 0.9rem;
+  border: 1px solid var(--edge); border-left: 0;
+  padding: 0 8px;
+  background: var(--surface);
+}
+input[type="text"], select, textarea {
+  width: 100%;
+  min-height: var(--tap);
+  font: inherit;
+  font-size: 16px;  /* 16px or more: phones do not zoom in on focus */
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--edge);
+  padding: 4px 8px;
+  appearance: none; -webkit-appearance: none;
+}
+.control input[type="text"] { text-align: right; }
+select { appearance: auto; -webkit-appearance: auto; }  /* keeps the phone's own drop-down arrow */
+textarea { min-height: 72px; resize: vertical; }
+input:focus-visible, select:focus-visible, textarea:focus-visible, button:focus-visible, a:focus-visible, summary:focus-visible {
+  outline: 1px solid var(--text);
+  outline-offset: -1px;
+}
+input[type="text"]:hover, select:hover, textarea:hover { border-color: var(--text); }
+
+/* ---- buttons: 1px edge, small capitals; the main action green, the second blue-grey.
+   Hover and press invert at once. */
+button {
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  min-height: var(--tap);
+  padding: 4px 12px;
+  border: 1px solid var(--edge);
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+}
+button.primary { background: var(--primary); border-color: var(--primary); color: var(--on-primary); }
+button.secondary { background: var(--secondary); border-color: var(--secondary); color: var(--on-secondary); }
+button.link {
+  border: 0; background: transparent; color: var(--primary-text);
+  min-height: var(--tap); padding: 4px; text-decoration: underline;
+}
+button.danger { border-color: var(--danger-text); color: var(--danger-text); }
+button:not(:disabled):hover, button:not(:disabled):active {
+  background: var(--text); border-color: var(--text); color: var(--bg);
+}
+button:disabled { opacity: 0.45; cursor: default; }
+button.wide { width: 100%; }
+.actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.actions button { flex: 1 1 11rem; }
+.actions button.link { flex: 0 0 auto; }
+
+/* ---- results: a table of figures, numbers on the right */
+dl.results {
+  display: grid; grid-template-columns: 1fr auto;
+  gap: 1px;
+  margin: 8px 0 0;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+dl.results dt, dl.results dd { background: var(--surface); padding: 4px 8px; margin: 0; }
+dl.results dt { color: var(--muted); font-size: 0.75rem; display: flex; align-items: center; }
+dl.results dd { font-weight: 700; font-size: 1.15rem; text-align: right; font-variant-numeric: tabular-nums; }
+.result-box { background: var(--good-bg); border: 1px solid var(--primary); padding: 6px 8px; margin-top: 8px; }
+.result-box p { margin: 4px 0; }
+
+.entry { border-top: 1px solid var(--line); padding: 8px 0; }
+.entry:first-child { border-top: 0; }
+.entry .when { font-weight: 700; }
+.entry .meta { color: var(--muted); font-size: 0.9rem; white-space: pre-wrap; }
+
+/* ---- bottom tabs and the message bar */
+.tabs {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background: var(--surface);
+  border-top: 1px solid var(--line);
+  padding-bottom: 0;
+  padding-bottom: env(safe-area-inset-bottom);
+  z-index: 10;
+}
+.tabs a {
+  display: grid;
+  place-items: center;
+  gap: 2px;
+  min-height: var(--nav-h);
+  padding: 4px 2px;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.68rem;
+  font-weight: 600;
+  border-left: 1px solid var(--line);
+}
+.tabs a:first-child { border-left: 0; }
+.tabs a svg { width: 22px; height: 22px; }
+.tabs a:hover { background: var(--text); color: var(--bg); }
+.tabs a[aria-current="page"] { background: var(--primary); color: var(--on-primary); }
+
+#toast {
+  position: fixed;
+  left: 8px; right: 8px;
+  bottom: calc(var(--nav-h) + 8px);
+  bottom: calc(var(--nav-h) + env(safe-area-inset-bottom) + 8px);
+  background: var(--text);
+  color: var(--bg);
+  border: 1px solid var(--text);
+  padding: 8px 10px;
+  z-index: 20;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+#toast[hidden] { display: none; }
+#toast button { border-color: var(--bg); background: var(--text); color: var(--bg); min-height: 36px; }
+#toast button:hover { background: var(--bg); color: var(--text); }

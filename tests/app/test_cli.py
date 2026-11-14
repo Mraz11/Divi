@@ -1,0 +1,680 @@
+# SPDX-FileCopyrightText: 2026 Dīvi contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+import json
+from pathlib import Path
+
+import numpy as np
+import pytest
+import rasterio
+from rasterio.transform import from_origin
+from typer.testing import CliRunner
+
+from avispria.app.cli import app
+from avispria.core.wpml.lint import LintLimits, lint_kmz
+
+FIXTURES = Path(__file__).resolve().parents[1] / "fixtures" / "dji_fly_dummy"
+DUMMY = FIXTURES / "lito_x1_5wp.kmz"
+GUID = "37924189-3F0F-4792-AA10-D50082167E9C"
+runner = CliRunner()
+
+
+@pytest.fixture
+def aoi(tmp_path: Path) -> Path:
+    ring = [[-0.0030, 51.4760], [-0.0010, 51.4760], [-0.0010, 51.4772], [-0.0030, 51.4772]]
+    path = tmp_path / "aoi.geojson"
+    path.write_text(json.dumps({"type": "Polygon", "coordinates": [[*ring, ring[0]]]}))
+    return path
+
+
+@pytest.fixture
+def dem(tmp_path: Path) -> Path:
+    arcsec = 1 / 3600
+    lon0, lat0, n = -0.02, 51.49, 120
+    lons = lon0 + (np.arange(n) + 0.5) * arcsec
+    lats = lat0 - (np.arange(n) + 0.5) * arcsec
+    glon, glat = np.meshgrid(lons, lats)
+    data = 20.0 + 30.0 * np.exp(
+        -(((glon + 0.002) / 0.0006) ** 2 + ((glat - 51.4766) / 0.0004) ** 2)
+    )
+    path = tmp_path / "dem.tif"
+    with rasterio.open(
+        path,
+        "w",
+        driver="GTiff",
+        height=n,
+        width=n,
+        count=1,
+        dtype="float32",
+        crs="EPSG:4326",
+        transform=from_origin(lon0, lat0, arcsec, arcsec),
+        nodata=-9999.0,
+    ) as dst:
+        dst.write(data.astype("float32"), 1)
+    return path
+
+
+def _plan(aoi: Path, out: Path, *extra: str) -> object:
+    args = [
+        "plan",
+        str(aoi),
+        "--template",
+        str(DUMMY),
+        "--takeoff",
+        "51.4766,-0.0020",
+        "--out",
+        str(out),
+        "--agl",
+        "50",
+        *extra,
+    ]
+    return runner.invoke(app, args)
+
+
+def test_plan_flat_writes_lint_clean_files(aoi: Path, tmp_path: Path) -> None:
+    out = tmp_path / "out"
+    result = _plan(aoi, out, "--flat")
+    assert result.exit_code == 0, result.output
+    assert "A photo is taken at every photo waypoint" in result.output  # the default
+    assert "Set DJI Fly timed shot" not in result.output
+    kmz = sorted(out.glob("*.kmz"))
+    assert kmz and all(lint_kmz(p.read_bytes(), LintLimits(max_speed_ms=12.0)) == [] for p in kmz)
+    assert sorted(out.glob("*_spotcheck.csv"))
+    report = json.loads((out / "plan_report.json").read_text())
+    assert report["missions"][0]["plan_hash"]
+    codes = {w["code"] for w in report["warnings"]}
+    assert "SAF008" in codes and "AVI003" not in codes  # Lito X1 profile is verified
+    assert "AVI001" not in codes  # and so is its photo action, which DJI Fly's own files showed
+
+
+def test_unverified_profile_is_flagged(aoi: Path, tmp_path: Path) -> None:
+    result = _plan(aoi, tmp_path / "out", "--flat", "--drone", "mini-4-pro")
+    assert result.exit_code == 0, result.output
+    assert "AVI003" in result.output
+
+
+def test_plan_with_geotiff_dem_follows_terrain(aoi: Path, dem: Path, tmp_path: Path) -> None:
+    result = _plan(aoi, tmp_path / "out", "--dem", str(dem))
+    assert result.exit_code == 0, result.output
+    assert "terrain: DEM" in result.output
+    assert "DEM minimum within 45 m" in result.output
+
+
+def test_plan_requires_terrain_choice(aoi: Path, tmp_path: Path) -> None:
+    result = _plan(aoi, tmp_path / "out")
+    assert result.exit_code == 1
+    assert "terrain data required" in result.output
+
+
+def test_blocked_plan_writes_nothing(aoi: Path, tmp_path: Path) -> None:
+    out = tmp_path / "out"
+    result = _plan(aoi, out, "--flat", "--max-distance", "20")
+    assert result.exit_code == 1
+    assert "Plan blocked" in result.output and "SAF004" in result.output
+    assert not out.exists()
+
+
+def test_a_photo_at_every_waypoint_is_the_default_and_timed_shot_still_works(
+    aoi: Path, tmp_path: Path
+) -> None:
+    waypoint = _plan(aoi, tmp_path / "w", "--flat")
+    assert waypoint.exit_code == 0 and "A photo is taken at every photo waypoint" in waypoint.output
+    report = json.loads((tmp_path / "w" / "plan_report.json").read_text())
+    assert report["missions"][0]["photos"] > 0  # photo waypoints are flagged in the file
+    timed = _plan(aoi, tmp_path / "t", "--flat", "--photo-mode", "interval")
+    assert timed.exit_code == 0 and "Set DJI Fly timed shot" in timed.output
+    assert (
+        json.loads((tmp_path / "t" / "plan_report.json").read_text())["missions"][0]["photos"] == 0
+    )
+
+
+def test_the_photo_action_is_only_flagged_for_an_aircraft_nobody_has_checked(
+    aoi: Path, tmp_path: Path
+) -> None:
+    lito = _plan(aoi, tmp_path / "a", "--flat", "--photo-mode", "waypoint")
+    assert (
+        lito.exit_code == 0 and "AVI001" not in lito.output
+    )  # DJI Fly's own files settled the Lito X1
+    mini = _plan(aoi, tmp_path / "b", "--flat", "--photo-mode", "waypoint", "--drone", "mini-4-pro")
+    assert mini.exit_code == 0 and "AVI001" in mini.output
+
+
+def test_inspect_lint_and_sheet(tmp_path: Path) -> None:
+    inspected = runner.invoke(app, ["inspect", str(DUMMY)])
+    assert inspected.exit_code == 0 and "drone enum    68 / 0" in inspected.output
+    assert runner.invoke(app, ["lint", str(DUMMY)]).exit_code == 0
+    garbage = tmp_path / "bad.kmz"
+    garbage.write_bytes(b"nope")
+    assert runner.invoke(app, ["lint", str(garbage)]).exit_code == 1
+    sheet = runner.invoke(app, ["sheet", str(DUMMY)])
+    assert sheet.exit_code == 0 and sheet.output.count("\n") == 7
+
+
+def test_prepare_copy_layout(tmp_path: Path) -> None:
+    ok = runner.invoke(app, ["prepare-copy", str(DUMMY), "--slot", GUID, "--out", str(tmp_path)])
+    assert ok.exit_code == 0, ok.output
+    assert (tmp_path / GUID / f"{GUID}.kmz").read_bytes() == DUMMY.read_bytes()
+    bad = runner.invoke(
+        app, ["prepare-copy", str(DUMMY), "--slot", "not-a-guid", "--out", str(tmp_path)]
+    )
+    assert bad.exit_code == 1
+
+
+def test_drones_lists_lito_x1() -> None:
+    result = runner.invoke(app, ["drones"])
+    assert result.exit_code == 0 and "lito-x1" in result.output
+
+
+def test_dem_that_misses_the_area_is_rejected(aoi: Path, tmp_path: Path) -> None:
+    far = tmp_path / "far.tif"
+    with rasterio.open(
+        far,
+        "w",
+        driver="GTiff",
+        height=10,
+        width=10,
+        count=1,
+        dtype="float32",
+        crs="EPSG:4326",
+        transform=from_origin(10.0, 10.0, 0.001, 0.001),
+    ) as dst:
+        dst.write(np.zeros((10, 10), "float32"), 1)
+    result = _plan(aoi, tmp_path / "out", "--dem", str(far))
+    assert result.exit_code == 1
+    assert "does not cover" in result.output
+
+
+def _photo_folder(tmp_path: Path, n: int = 12) -> Path:
+    from tiffbuild import IFD_POINTER, build_tiff, dji_xmp, jpeg_with
+
+    folder = tmp_path / "photos"
+    folder.mkdir()
+    for k in range(n):
+        xmp = dji_xmp(
+            GpsLatitude=f"{51.4769 + (k % 6) * 0.0001:.7f}",
+            GpsLongitude=f"{-0.0015 + (k // 6) * 0.0003:.7f}",
+            RelativeAltitude="60.0",
+            GimbalPitchDegree="-90.0",
+            GimbalYawDegree="0.0",
+            FlightXSpeed="3.0",
+            FlightYSpeed="0.0",
+            ProductName="Lito X1",
+        )
+        ifds = {
+            "ifd0": [(271, 2, "DJI"), (272, 2, "FC9589"), (34665, IFD_POINTER, "exif")],
+            "exif": [
+                (33434, 5, [(1, 2000)]),
+                (36867, 2, f"2026:10:24 12:00:{2 * k:02d}"),
+                (37386, 5, [(672, 100)]),
+                (41989, 3, 24),
+                (40962, 4, 4032),
+                (40963, 4, 3024),
+            ],
+        }
+        (folder / f"DJI_{k:04d}.JPG").write_bytes(
+            jpeg_with(build_tiff(ifds, ["ifd0", "exif"]), xmp)
+        )
+    return folder
+
+
+def test_qa_command_reports_and_writes_csv(tmp_path: Path) -> None:
+    folder = _photo_folder(tmp_path)
+    csv_path = tmp_path / "qa.csv"
+    result = runner.invoke(app, ["qa", str(folder), "--drone", "lito-x1", "--csv", str(csv_path)])
+    assert result.exit_code == 0, result.output
+    assert "photos: 12 found, 12 used" in result.output
+    assert csv_path.read_text().count("\n") == 13
+
+
+def test_qa_without_profile_derives_camera_from_exif(tmp_path: Path) -> None:
+    result = runner.invoke(app, ["qa", str(_photo_folder(tmp_path))])
+    assert result.exit_code == 0, result.output
+    assert "GSD" in result.output
+
+
+def test_qa_too_few_photos_fails(tmp_path: Path) -> None:
+    result = runner.invoke(app, ["qa", str(_photo_folder(tmp_path, n=2))])
+    assert result.exit_code == 1 and "QA009" in result.output
+
+
+def test_camera_from_photo(tmp_path: Path) -> None:
+    photo = next(_photo_folder(tmp_path, n=1).iterdir())
+    result = runner.invoke(app, ["camera-from-photo", str(photo), "--key", "lito-x1"])
+    assert result.exit_code == 0, result.output
+    assert "[lito-x1.modes.12mp]" in result.output
+    assert "sensor_width_mm = 9.692" in result.output
+
+
+def test_qa_points_to_subfolders_with_photos(tmp_path: Path) -> None:
+    inner = _photo_folder(tmp_path, n=4)
+    parent = inner.parent
+    result = runner.invoke(app, ["qa", str(parent)])
+    assert result.exit_code == 1
+    assert "No photos directly in" in result.output
+    assert "photos (4 photos)" in result.output
+    recursive = runner.invoke(app, ["qa", str(parent), "--recursive"])
+    assert recursive.exit_code == 0, recursive.output
+    assert "photos: 4 found, 4 used" in recursive.output
+
+
+def _fake_doctor(monkeypatch: pytest.MonkeyPatch, ram: float, webodm: bool) -> None:
+    from avispria.adapters.system_probe import EngineStatus
+    from avispria.app import doctor as doctor_module
+    from avispria.core.feasibility import SystemSpec
+
+    spec = SystemSpec("Windows 11", 8, ram, ram * 0.6, 4.0, 300.0)
+    engines = [
+        EngineStatus(
+            "WebODM", "http://localhost:8000/", webodm, "HTTP 200" if webodm else "not running"
+        ),
+        EngineStatus("Processing node", "http://localhost:3000/info", False, "not running"),
+    ]
+    monkeypatch.setattr(doctor_module, "probe_system", lambda workdir: spec)
+    monkeypatch.setattr(doctor_module, "probe_engines", lambda: engines)
+
+
+def test_doctor_without_photos(monkeypatch: pytest.MonkeyPatch) -> None:
+    _fake_doctor(monkeypatch, ram=16.0, webodm=False)
+    result = runner.invoke(app, ["doctor"])
+    assert result.exit_code == 0, result.output
+    assert "16.0 GB total" in result.output
+    assert "webodm.org/download" in result.output and "--webodm-url" in result.output
+
+
+def test_doctor_job_fits(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
+    _fake_doctor(monkeypatch, ram=16.0, webodm=True)
+    result = runner.invoke(app, ["doctor", str(_photo_folder(tmp_path))])
+    assert result.exit_code == 0, result.output
+    assert "WebODM     running" in result.output
+    assert "This computer can process these photos." in result.output
+
+
+def test_doctor_job_too_big_lists_options(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
+    from avispria.app import doctor as doctor_module
+    from avispria.core.feasibility import JobSpec
+
+    _fake_doctor(monkeypatch, ram=8.0, webodm=True)
+    monkeypatch.setattr(
+        doctor_module,
+        "job_from_folder",
+        lambda folder, recursive=False: (JobSpec(900, 48.8, 54.0), 0),
+    )
+    result = runner.invoke(app, ["doctor", str(tmp_path)])
+    assert result.exit_code == 1
+    assert "Not possible on this computer as it is." in result.output
+    assert "Split into" in result.output and "works" in result.output
+
+
+def test_doctor_never_crashes_on_engine_errors(monkeypatch: pytest.MonkeyPatch) -> None:
+    from avispria.app import doctor as doctor_module
+
+    _fake_doctor(monkeypatch, ram=16.0, webodm=False)
+
+    def boom() -> list[object]:
+        raise RuntimeError("unexpected reply")
+
+    monkeypatch.setattr(doctor_module, "probe_engines", boom)
+    result = runner.invoke(app, ["doctor"])
+    assert result.exit_code == 0, result.output
+    assert "not found running" in result.output
+
+
+def test_doctor_details(monkeypatch: pytest.MonkeyPatch) -> None:
+    from avispria.adapters.system_probe import WebOdmApi
+    from avispria.app import doctor as doctor_module
+
+    _fake_doctor(monkeypatch, ram=16.0, webodm=True)
+    monkeypatch.setattr(
+        doctor_module, "discover_local_services", lambda: [("webodm.exe", 7, "127.0.0.1", 29800)]
+    )
+    monkeypatch.setattr(doctor_module, "classify_service", lambda h, p: "web page (HTTP 200)")
+    node = {
+        "label": "node-odx-1",
+        "hostname": "localhost",
+        "port": 3000,
+        "online": True,
+        "engine": "odx",
+        "engine_version": "3.6.2",
+    }
+    monkeypatch.setattr(
+        doctor_module, "probe_webodm_api", lambda url: WebOdmApi(200, False, [node], None)
+    )
+    result = runner.invoke(app, ["doctor", "--details"])
+    assert result.exit_code == 0, result.output
+    assert "webodm.exe (pid 7)  127.0.0.1:29800  ->  web page (HTTP 200)" in result.output
+    assert "processing node node-odx-1: localhost:3000, online, odx 3.6.2" in result.output
+
+
+def test_engine_finds_local_node_and_never_prints_token(monkeypatch: pytest.MonkeyPatch) -> None:
+    from avispria.adapters import system_probe
+    from fakes.nodeodx import fake_nodeodx
+
+    with fake_nodeodx("very-secret-token") as port:
+        local = system_probe.LocalNode(f"http://127.0.0.1:{port}", "very-secret-token", 4242, None)
+        monkeypatch.setattr(system_probe, "find_local_node", lambda: local)
+        result = runner.invoke(app, ["engine"])
+    assert result.exit_code == 0, result.output
+    assert "nodeodx (pid 4242)" in result.output
+    assert "Connected      odx 3.6.2 (API 2.4.0)" in result.output
+    assert "read from the running engine" in result.output
+    assert "not offered by this engine: dtm" in result.output
+    assert "very-secret-token" not in result.output
+
+
+def test_engine_reports_when_nothing_runs(monkeypatch: pytest.MonkeyPatch) -> None:
+    from avispria.adapters import system_probe
+
+    monkeypatch.setattr(system_probe, "find_local_node", lambda: None)
+    result = runner.invoke(app, ["engine"])
+    assert result.exit_code == 1 and "No processing engine is running" in result.output
+
+
+def test_engine_with_wrong_token(monkeypatch: pytest.MonkeyPatch) -> None:
+    from fakes.nodeodx import fake_nodeodx
+
+    with fake_nodeodx("right") as port:
+        result = runner.invoke(
+            app, ["engine", "--url", f"http://127.0.0.1:{port}", "--token", "wrong"]
+        )
+    assert result.exit_code == 1 and "rejected the access token" in result.output
+
+
+def test_doctor_assumes_full_size_for_raw_photos(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    _fake_doctor(monkeypatch, ram=16.0, webodm=True)
+    folder = _photo_folder(tmp_path, n=6)
+    first = next(folder.iterdir())
+    first.rename(first.with_suffix(".DNG"))  # one raw file in the set
+    result = runner.invoke(app, ["doctor", str(folder)])
+    assert result.exit_code == 0, result.output
+    assert "processed at 12.2 MP" not in result.output
+
+
+def test_qa_with_dem_and_takeoff_uses_the_terrain(tmp_path: Path, dem: Path) -> None:
+    folder = _photo_folder(tmp_path)
+    result = runner.invoke(
+        app, ["qa", str(folder), "--dem", str(dem), "--takeoff", "51.4769,-0.0015"]
+    )
+    assert result.exit_code == 0, result.output
+    assert "above the surface" in result.output
+    assert (
+        "terrain used for 12 of 12 photos (height differences from the takeoff point)"
+        in result.output
+    )
+
+
+def test_qa_with_dem_but_no_takeoff_explains_why_terrain_was_not_used(
+    tmp_path: Path, dem: Path
+) -> None:
+    result = runner.invoke(app, ["qa", str(_photo_folder(tmp_path)), "--dem", str(dem)])
+    assert result.exit_code == 0, result.output
+    assert "above takeoff" in result.output and "QA011" in result.output
+    assert "--takeoff" in result.output
+
+
+def test_qa_takeoff_needs_a_model(tmp_path: Path) -> None:
+    result = runner.invoke(app, ["qa", str(_photo_folder(tmp_path)), "--takeoff", "51.4,0.0"])
+    assert (
+        result.exit_code == 2 and "--takeoff only makes sense together with --dem" in result.output
+    )
+
+
+def test_qa_model_that_does_not_cover_the_photos(tmp_path: Path) -> None:
+    far = tmp_path / "far.tif"
+    with rasterio.open(
+        far,
+        "w",
+        driver="GTiff",
+        height=10,
+        width=10,
+        count=1,
+        dtype="float32",
+        crs="EPSG:4326",
+        transform=from_origin(10.0, 10.0, 0.001, 0.001),
+    ) as dst:
+        dst.write(np.zeros((10, 10), "float32"), 1)
+    result = runner.invoke(
+        app, ["qa", str(_photo_folder(tmp_path)), "--dem", str(far), "--takeoff", "51.4769,-0.0015"]
+    )
+    assert result.exit_code == 1 and "Cannot use the elevation model" in result.output
+
+
+def test_qa_absolute_mode_wording(tmp_path: Path) -> None:
+    """Photos carrying an absolute altitude in the model's own height reference."""
+    import numpy as np
+    import rasterio
+    from rasterio.transform import from_origin
+
+    from tiffbuild import IFD_POINTER, build_tiff, dji_xmp, jpeg_with
+
+    folder = tmp_path / "abs"
+    folder.mkdir()
+    for k in range(6):
+        xmp = dji_xmp(
+            GpsLatitude=f"{51.4769 + (k % 3) * 0.0001:.7f}",
+            GpsLongitude=f"{-0.0015 + (k // 3) * 0.0003:.7f}",
+            RelativeAltitude="60.0",
+            AbsoluteAltitude="160.0",
+            GimbalPitchDegree="-90.0",
+            GimbalYawDegree="0.0",
+            FlightXSpeed="3.0",
+            FlightYSpeed="0.0",
+            ProductName="Lito X1",
+        )
+        ifds = {
+            "ifd0": [(271, 2, "DJI"), (272, 2, "FC9589"), (34665, IFD_POINTER, "exif")],
+            "exif": [
+                (33434, 5, [(1, 2000)]),
+                (36867, 2, f"2026:10:24 12:00:{2 * k:02d}"),
+                (37386, 5, [(672, 100)]),
+                (41989, 3, 24),
+                (40962, 4, 4032),
+                (40963, 4, 3024),
+            ],
+        }
+        (folder / f"P{k}.JPG").write_bytes(jpeg_with(build_tiff(ifds, ["ifd0", "exif"]), xmp))
+    surface = tmp_path / "surface.tif"
+    with rasterio.open(
+        surface,
+        "w",
+        driver="GTiff",
+        height=50,
+        width=50,
+        count=1,
+        dtype="float32",
+        crs="EPSG:4326",
+        transform=from_origin(-0.01, 51.49, 0.0005, 0.0005),
+    ) as dst:
+        dst.write(np.full((50, 50), 130.0, "float32"), 1)  # photos at 160 -> 30 m above it
+    result = runner.invoke(app, ["qa", str(folder), "--dem", str(surface)])
+    assert result.exit_code == 0, result.output
+    assert "height 30.0 m above the surface" in result.output
+    assert "photo altitudes compared with the model" in result.output
+
+
+def test_qa_shows_front_and_side_overlap(tmp_path: Path) -> None:
+    result = runner.invoke(app, ["qa", str(_photo_folder(tmp_path))])
+    assert result.exit_code == 0, result.output
+    assert "overlap       front" in result.output and "typical," in result.output
+
+
+def test_plan_shows_what_the_photos_will_really_get(aoi: Path, dem: Path, tmp_path: Path) -> None:
+    out = tmp_path / "out"
+    result = _plan(aoi, out, "--dem", str(dem), "--photo-mode", "waypoint")
+    assert result.exit_code == 0, result.output
+    assert "requested 50.0 m above the surface" in result.output
+    assert "Predicted over the real surface" in result.output
+    assert "resolution" in result.output and "overlap" in result.output
+    assert "coverage" in result.output and "route built around" in result.output
+    report = json.loads((out / "plan_report.json").read_text())
+    prediction = report["summary"]["prediction"]
+    assert prediction["terrain_aware"] is True and prediction["gsd_cm_median"] > 0
+    assert report["summary"]["flight_reference_m"] < 50.0  # terrain following lifts the drone
+
+
+def test_plan_surface_height_and_calibration_switch(aoi: Path, tmp_path: Path) -> None:
+    flat = _plan(aoi, tmp_path / "a", "--flat", "--photo-mode", "waypoint")
+    trees = _plan(
+        aoi, tmp_path / "b", "--flat", "--photo-mode", "waypoint", "--surface-height", "25"
+    )
+    assert flat.exit_code == 0 and trees.exit_code == 0, trees.output
+    # same typical height above the surface, but the route sits 25 m higher
+    assert "50.0 m typical" in flat.output and "50.0 m typical" in trees.output
+    from avispria.core.wpml.reader import read_mission
+
+    top = lambda d: max(  # noqa: E731
+        w.height_m for w in read_mission(next((tmp_path / d).glob("*.kmz")).read_bytes()).waypoints
+    )
+    assert top("b") - top("a") == pytest.approx(25.0, abs=0.1)
+
+
+def test_plan_no_calibrate_keeps_the_old_route(aoi: Path, dem: Path, tmp_path: Path) -> None:
+    result = _plan(aoi, tmp_path / "out", "--dem", str(dem), "--no-calibrate")
+    assert result.exit_code == 0, result.output
+    report = json.loads((tmp_path / "out" / "plan_report.json").read_text())
+    assert report["summary"]["flight_reference_m"] == pytest.approx(50.0)
+    assert report["summary"]["calibration_steps"] == 1
+
+
+def test_qa_with_a_ground_height_checks_photos_that_record_only_a_sea_level_height(
+    tmp_path: Path,
+) -> None:
+    from photobuild import make_exif_only_jpeg
+
+    folder = tmp_path / "autel"
+    folder.mkdir()
+    for i in range(12):  # 2 x 6 block like a real survey; GPS height 513 m above sea level
+        make_exif_only_jpeg(
+            folder / f"MAX_{i:04d}.JPG",
+            size=(800, 600),
+            lat=47.6435 + (i % 6) * 0.00008,
+            lon=16.4763 + (i // 6) * 0.00016,
+            altitude_asl=513.1,
+        )
+    without = runner.invoke(app, ["qa", str(folder)])
+    assert without.exit_code == 1 and "QA015" in without.output  # told exactly what is missing
+    assert "above sea level" in without.output and "turn location" not in without.output.lower()
+    result = runner.invoke(app, ["qa", str(folder), "--ground-elev", "463.7"])
+    assert result.exit_code == 0, result.output
+    assert "12 found, 12 used" in result.output
+    assert "above the ground (taken as 463.7 m above sea level)" in result.output
+    assert "height 49.4 m" in result.output  # 513.1 - 463.7
+    assert "QA016" in result.output  # the camera angle is not recorded, and that is said
+
+
+def _doctor_with(monkeypatch: pytest.MonkeyPatch, programs: list[str]) -> str:
+    from avispria.adapters.system_probe import EngineStatus
+    from avispria.app import doctor as doctor_module
+    from avispria.core.feasibility import SystemSpec
+
+    spec = SystemSpec("Windows 11", 12, 16.0, 2.4, 12.0, 111.0)
+    down = [EngineStatus("WebODM", "http://localhost:8000/", False, "refused")]
+    monkeypatch.setattr(doctor_module, "probe_system", lambda workdir: spec)
+    monkeypatch.setattr(doctor_module, "probe_engines", lambda: down)
+    monkeypatch.setattr(doctor_module, "running_engine_programs", lambda: programs)
+    return runner.invoke(app, ["doctor"]).output
+
+
+def test_doctor_says_when_webodm_is_not_running_at_all(monkeypatch: pytest.MonkeyPatch) -> None:
+    out = _doctor_with(monkeypatch, [])
+    assert (
+        "not found running" in out and "not only installed" in out and "webodm.org/download" in out
+    )
+    assert "administrator" not in out  # nothing of WebODM runs, so that is not the problem
+
+
+def test_doctor_says_when_webodm_runs_but_nothing_answers(monkeypatch: pytest.MonkeyPatch) -> None:
+    out = _doctor_with(monkeypatch, ["WebODM.exe", "nodeodx.exe"])
+    assert "its programs are running (WebODM.exe, nodeodx.exe) but none is answering" in out
+    assert "started as administrator" in out and "dashboard opens" in out
+    assert "not only installed" not in out
+
+
+def test_prepare_copy_can_make_a_brand_new_mission_id(tmp_path: Path) -> None:
+    import re
+
+    result = runner.invoke(app, ["prepare-copy", str(DUMMY), "--out", str(tmp_path)])
+    assert result.exit_code == 0, result.output
+    folders = [p for p in tmp_path.iterdir() if p.is_dir()]
+    assert len(folders) == 1
+    guid = folders[0].name
+    assert re.fullmatch(
+        r"[0-9A-F]{8}(-[0-9A-F]{4}){3}-[0-9A-F]{12}", guid
+    )  # upper-case, like DJI Fly's
+    assert (folders[0] / f"{guid}.kmz").is_file()
+    assert "NEW mission id" in result.output and "did not create" in result.output
+    again = runner.invoke(app, ["prepare-copy", str(DUMMY), "--out", str(tmp_path)])
+    assert (
+        again.exit_code == 0 and len([p for p in tmp_path.iterdir() if p.is_dir()]) == 2
+    )  # a new one each time
+
+
+def test_a_tilted_plan_with_crossing_lines_is_a_3d_plan_and_says_so(
+    aoi: Path, tmp_path: Path
+) -> None:
+    from avispria.core.wpml.reader import read_mission
+
+    out = tmp_path / "t"
+    result = _plan(aoi, out, "--flat", "--tilt", "30", "--crosshatch")
+    assert result.exit_code == 0, result.output
+    assert "3D plan: camera tilted 30 degrees from straight down" in result.output
+    assert (
+        "cm/px at the bottom of a picture" in result.output
+        and "no prediction is made" in result.output
+    )
+    mission = sorted(out.glob("*.kmz"))[0]
+    pitches = {
+        w.gimbal_pitch_deg
+        for p in sorted(out.glob("*.kmz"))
+        for w in read_mission(p.read_bytes()).waypoints
+    }
+    assert pitches == {-60.0}  # the tilt reaches every waypoint of the written files
+    flat = _plan(aoi, tmp_path / "f", "--flat")
+    assert "3D plan" not in flat.output and mission.exists()
+
+
+def test_a_tilt_that_is_too_steep_is_refused_by_the_command(aoi: Path, tmp_path: Path) -> None:
+    result = _plan(aoi, tmp_path / "x", "--flat", "--tilt", "70")
+    assert result.exit_code == 1 and "too steep" in result.output
+    assert not (tmp_path / "x").exists()
+
+
+def test_inspect_shows_the_route_and_the_time_dji_fly_shows(tmp_path: Path, aoi: Path) -> None:
+    out = tmp_path / "plan"
+    assert _plan(aoi, out, "--flat").exit_code == 0
+    first = sorted(out.glob("*.kmz"))[0]
+    shown = runner.invoke(app, ["inspect", str(first)]).output
+    import re
+
+    equal = re.search(r"speeds        automatic ([\d.]+), transit \1, waypoints \1 m/s", shown)
+    assert equal, shown  # the three speeds a mission carries are one and the same
+    assert " m between the waypoints; about " in shown and "DJI Fly shows the same" in shown
+    assert "NOTE" not in shown  # one speed everywhere: nothing to warn about
+
+
+def test_inspect_says_when_the_speeds_inside_a_file_disagree(tmp_path: Path) -> None:
+    import re
+    import zipfile
+
+    src = Path(__file__).resolve().parents[1] / "fixtures" / "dji_fly_poi" / "angles_6wp.kmz"
+    odd = tmp_path / "odd.kmz"
+    with zipfile.ZipFile(src) as zin, zipfile.ZipFile(odd, "w") as zout:
+        for item in zin.infolist():
+            data = zin.read(item.filename)
+            if item.filename.endswith("waylines.wpml"):
+                data = re.sub(
+                    rb"<wpml:autoFlightSpeed>[^<]*</wpml:autoFlightSpeed>",
+                    b"<wpml:autoFlightSpeed>8.2</wpml:autoFlightSpeed>",
+                    data,
+                )
+            zout.writestr(item.filename, data)
+    shown = runner.invoke(app, ["inspect", str(odd)]).output
+    assert "automatic 8.2, transit 2.5, waypoints 2.5 m/s" in shown
+    assert "NOTE: the speeds in this file are not all the same" in shown
+
+
+def test_inspect_of_the_real_dji_fly_mission_matches_what_dji_fly_computes() -> None:
+    src = Path(__file__).resolve().parents[1] / "fixtures" / "dji_fly_poi" / "angles_6wp.kmz"
+    shown = runner.invoke(app, ["inspect", str(src)]).output
+    assert "speeds        automatic 2.5, transit 2.5, waypoints 2.5 m/s" in shown
+    assert "NOTE" not in shown

@@ -1,0 +1,1876 @@
+{
+ "camera": [
+  {
+   "across": 43.26625,
+   "along": 32.4496875,
+   "camera": "air-3",
+   "gsd_m": 0.0107307167659,
+   "height": 30.0,
+   "line_m": 12.979875,
+   "mode": "12mp",
+   "photo_m": 6.4899375
+  },
+  {
+   "across": 86.5325,
+   "along": 64.899375,
+   "camera": "air-3",
+   "gsd_m": 0.0214614335317,
+   "height": 60.0,
+   "line_m": 25.95975,
+   "mode": "12mp",
+   "photo_m": 12.979875
+  },
+  {
+   "across": 144.220833333,
+   "along": 108.165625,
+   "camera": "air-3",
+   "gsd_m": 0.0357690558862,
+   "height": 100.0,
+   "line_m": 43.26625,
+   "mode": "12mp",
+   "photo_m": 21.633125
+  },
+  {
+   "across": 43.26625,
+   "along": 32.4496875,
+   "camera": "air-3",
+   "gsd_m": 0.00536535838294,
+   "height": 30.0,
+   "line_m": 12.979875,
+   "mode": "48mp",
+   "photo_m": 6.4899375
+  },
+  {
+   "across": 86.5325,
+   "along": 64.899375,
+   "camera": "air-3",
+   "gsd_m": 0.0107307167659,
+   "height": 60.0,
+   "line_m": 25.95975,
+   "mode": "48mp",
+   "photo_m": 12.979875
+  },
+  {
+   "across": 144.220833333,
+   "along": 108.165625,
+   "camera": "air-3",
+   "gsd_m": 0.0178845279431,
+   "height": 100.0,
+   "line_m": 43.26625,
+   "mode": "48mp",
+   "photo_m": 21.633125
+  },
+  {
+   "across": 43.26625,
+   "along": 32.4496875,
+   "camera": "air-3s",
+   "gsd_m": 0.0105630493164,
+   "height": 30.0,
+   "line_m": 12.979875,
+   "mode": "12mp",
+   "photo_m": 6.4899375
+  },
+  {
+   "across": 86.5325,
+   "along": 64.899375,
+   "camera": "air-3s",
+   "gsd_m": 0.0211260986328,
+   "height": 60.0,
+   "line_m": 25.95975,
+   "mode": "12mp",
+   "photo_m": 12.979875
+  },
+  {
+   "across": 144.220833333,
+   "along": 108.165625,
+   "camera": "air-3s",
+   "gsd_m": 0.035210164388,
+   "height": 100.0,
+   "line_m": 43.26625,
+   "mode": "12mp",
+   "photo_m": 21.633125
+  },
+  {
+   "across": 43.26625,
+   "along": 32.4496875,
+   "camera": "air-3s",
+   "gsd_m": 0.0052815246582,
+   "height": 30.0,
+   "line_m": 12.979875,
+   "mode": "50mp",
+   "photo_m": 6.4899375
+  },
+  {
+   "across": 86.5325,
+   "along": 64.899375,
+   "camera": "air-3s",
+   "gsd_m": 0.0105630493164,
+   "height": 60.0,
+   "line_m": 25.95975,
+   "mode": "50mp",
+   "photo_m": 12.979875
+  },
+  {
+   "across": 144.220833333,
+   "along": 108.165625,
+   "camera": "air-3s",
+   "gsd_m": 0.017605082194,
+   "height": 100.0,
+   "line_m": 43.26625,
+   "mode": "50mp",
+   "photo_m": 21.633125
+  },
+  {
+   "across": 43.2678571429,
+   "along": 32.4508928571,
+   "camera": "lito-x1",
+   "gsd_m": 0.0107311153628,
+   "height": 30.0,
+   "line_m": 12.9803571429,
+   "mode": "12mp",
+   "photo_m": 6.49017857143
+  },
+  {
+   "across": 86.5357142857,
+   "along": 64.9017857143,
+   "camera": "lito-x1",
+   "gsd_m": 0.0214622307256,
+   "height": 60.0,
+   "line_m": 25.9607142857,
+   "mode": "12mp",
+   "photo_m": 12.9803571429
+  },
+  {
+   "across": 144.226190476,
+   "along": 108.169642857,
+   "camera": "lito-x1",
+   "gsd_m": 0.0357703845427,
+   "height": 100.0,
+   "line_m": 43.2678571429,
+   "mode": "12mp",
+   "photo_m": 21.6339285714
+  },
+  {
+   "across": 43.2678571429,
+   "along": 32.4508928571,
+   "camera": "lito-x1",
+   "gsd_m": 0.00536555768141,
+   "height": 30.0,
+   "line_m": 12.9803571429,
+   "mode": "48mp",
+   "photo_m": 6.49017857143
+  },
+  {
+   "across": 86.5357142857,
+   "along": 64.9017857143,
+   "camera": "lito-x1",
+   "gsd_m": 0.0107311153628,
+   "height": 60.0,
+   "line_m": 25.9607142857,
+   "mode": "48mp",
+   "photo_m": 12.9803571429
+  },
+  {
+   "across": 144.226190476,
+   "along": 108.169642857,
+   "camera": "lito-x1",
+   "gsd_m": 0.0178851922714,
+   "height": 100.0,
+   "line_m": 43.2678571429,
+   "mode": "48mp",
+   "photo_m": 21.6339285714
+  },
+  {
+   "across": 42.2294548413,
+   "along": 31.6400991198,
+   "camera": "mavic-3",
+   "gsd_m": 0.00799800281086,
+   "height": 30.0,
+   "line_m": 12.6688364524,
+   "mode": "20mp",
+   "photo_m": 6.32801982395
+  },
+  {
+   "across": 84.4589096827,
+   "along": 63.2801982395,
+   "camera": "mavic-3",
+   "gsd_m": 0.0159960056217,
+   "height": 60.0,
+   "line_m": 25.3376729048,
+   "mode": "20mp",
+   "photo_m": 12.6560396479
+  },
+  {
+   "across": 140.764849471,
+   "along": 105.466997066,
+   "camera": "mavic-3",
+   "gsd_m": 0.0266600093695,
+   "height": 100.0,
+   "line_m": 42.2294548413,
+   "mode": "20mp",
+   "photo_m": 21.0933994132
+  },
+  {
+   "across": 42.2294548413,
+   "along": 31.6400991198,
+   "camera": "mavic-3-classic",
+   "gsd_m": 0.00799800281086,
+   "height": 30.0,
+   "line_m": 12.6688364524,
+   "mode": "20mp",
+   "photo_m": 6.32801982395
+  },
+  {
+   "across": 84.4589096827,
+   "along": 63.2801982395,
+   "camera": "mavic-3-classic",
+   "gsd_m": 0.0159960056217,
+   "height": 60.0,
+   "line_m": 25.3376729048,
+   "mode": "20mp",
+   "photo_m": 12.6560396479
+  },
+  {
+   "across": 140.764849471,
+   "along": 105.466997066,
+   "camera": "mavic-3-classic",
+   "gsd_m": 0.0266600093695,
+   "height": 100.0,
+   "line_m": 42.2294548413,
+   "mode": "20mp",
+   "photo_m": 21.0933994132
+  },
+  {
+   "across": 42.2294548413,
+   "along": 31.6400991198,
+   "camera": "mavic-3-pro",
+   "gsd_m": 0.00799800281086,
+   "height": 30.0,
+   "line_m": 12.6688364524,
+   "mode": "20mp",
+   "photo_m": 6.32801982395
+  },
+  {
+   "across": 84.4589096827,
+   "along": 63.2801982395,
+   "camera": "mavic-3-pro",
+   "gsd_m": 0.0159960056217,
+   "height": 60.0,
+   "line_m": 25.3376729048,
+   "mode": "20mp",
+   "photo_m": 12.6560396479
+  },
+  {
+   "across": 140.764849471,
+   "along": 105.466997066,
+   "camera": "mavic-3-pro",
+   "gsd_m": 0.0266600093695,
+   "height": 100.0,
+   "line_m": 42.2294548413,
+   "mode": "20mp",
+   "photo_m": 21.0933994132
+  },
+  {
+   "across": 38.5714285714,
+   "along": 25.7142857143,
+   "camera": "mavic-4-pro",
+   "gsd_m": 0.00313895089286,
+   "height": 30.0,
+   "line_m": 11.5714285714,
+   "mode": "100mp",
+   "photo_m": 5.14285714286
+  },
+  {
+   "across": 77.1428571429,
+   "along": 51.4285714286,
+   "camera": "mavic-4-pro",
+   "gsd_m": 0.00627790178571,
+   "height": 60.0,
+   "line_m": 23.1428571429,
+   "mode": "100mp",
+   "photo_m": 10.2857142857
+  },
+  {
+   "across": 128.571428571,
+   "along": 85.7142857143,
+   "camera": "mavic-4-pro",
+   "gsd_m": 0.0104631696429,
+   "height": 100.0,
+   "line_m": 38.5714285714,
+   "mode": "100mp",
+   "photo_m": 17.1428571429
+  },
+  {
+   "across": 38.5714285714,
+   "along": 25.7142857143,
+   "camera": "mavic-4-pro",
+   "gsd_m": 0.00627790178571,
+   "height": 30.0,
+   "line_m": 11.5714285714,
+   "mode": "25mp",
+   "photo_m": 5.14285714286
+  },
+  {
+   "across": 77.1428571429,
+   "along": 51.4285714286,
+   "camera": "mavic-4-pro",
+   "gsd_m": 0.0125558035714,
+   "height": 60.0,
+   "line_m": 23.1428571429,
+   "mode": "25mp",
+   "photo_m": 10.2857142857
+  },
+  {
+   "across": 128.571428571,
+   "along": 85.7142857143,
+   "camera": "mavic-4-pro",
+   "gsd_m": 0.0209263392857,
+   "height": 100.0,
+   "line_m": 38.5714285714,
+   "mode": "25mp",
+   "photo_m": 17.1428571429
+  },
+  {
+   "across": 40.0625,
+   "along": 30.046875,
+   "camera": "mini-4-pro",
+   "gsd_m": 0.0099361359127,
+   "height": 30.0,
+   "line_m": 12.01875,
+   "mode": "12mp",
+   "photo_m": 6.009375
+  },
+  {
+   "across": 80.125,
+   "along": 60.09375,
+   "camera": "mini-4-pro",
+   "gsd_m": 0.0198722718254,
+   "height": 60.0,
+   "line_m": 24.0375,
+   "mode": "12mp",
+   "photo_m": 12.01875
+  },
+  {
+   "across": 133.541666667,
+   "along": 100.15625,
+   "camera": "mini-4-pro",
+   "gsd_m": 0.0331204530423,
+   "height": 100.0,
+   "line_m": 40.0625,
+   "mode": "12mp",
+   "photo_m": 20.03125
+  },
+  {
+   "across": 40.0625,
+   "along": 30.046875,
+   "camera": "mini-4-pro",
+   "gsd_m": 0.00496806795635,
+   "height": 30.0,
+   "line_m": 12.01875,
+   "mode": "48mp",
+   "photo_m": 6.009375
+  },
+  {
+   "across": 80.125,
+   "along": 60.09375,
+   "camera": "mini-4-pro",
+   "gsd_m": 0.0099361359127,
+   "height": 60.0,
+   "line_m": 24.0375,
+   "mode": "48mp",
+   "photo_m": 12.01875
+  },
+  {
+   "across": 133.541666667,
+   "along": 100.15625,
+   "camera": "mini-4-pro",
+   "gsd_m": 0.0165602265212,
+   "height": 100.0,
+   "line_m": 40.0625,
+   "mode": "48mp",
+   "photo_m": 20.03125
+  },
+  {
+   "across": 43.26625,
+   "along": 32.4496875,
+   "camera": "mini-5-pro",
+   "gsd_m": 0.0105630493164,
+   "height": 30.0,
+   "line_m": 12.979875,
+   "mode": "12mp",
+   "photo_m": 6.4899375
+  },
+  {
+   "across": 86.5325,
+   "along": 64.899375,
+   "camera": "mini-5-pro",
+   "gsd_m": 0.0211260986328,
+   "height": 60.0,
+   "line_m": 25.95975,
+   "mode": "12mp",
+   "photo_m": 12.979875
+  },
+  {
+   "across": 144.220833333,
+   "along": 108.165625,
+   "camera": "mini-5-pro",
+   "gsd_m": 0.035210164388,
+   "height": 100.0,
+   "line_m": 43.26625,
+   "mode": "12mp",
+   "photo_m": 21.633125
+  },
+  {
+   "across": 43.26625,
+   "along": 32.4496875,
+   "camera": "mini-5-pro",
+   "gsd_m": 0.0052815246582,
+   "height": 30.0,
+   "line_m": 12.979875,
+   "mode": "50mp",
+   "photo_m": 6.4899375
+  },
+  {
+   "across": 86.5325,
+   "along": 64.899375,
+   "camera": "mini-5-pro",
+   "gsd_m": 0.0105630493164,
+   "height": 60.0,
+   "line_m": 25.95975,
+   "mode": "50mp",
+   "photo_m": 12.979875
+  },
+  {
+   "across": 144.220833333,
+   "along": 108.165625,
+   "camera": "mini-5-pro",
+   "gsd_m": 0.017605082194,
+   "height": 100.0,
+   "line_m": 43.26625,
+   "mode": "50mp",
+   "photo_m": 21.633125
+  }
+ ],
+ "canopy": [
+  {
+   "above": 60.0,
+   "camera": "lito-x1",
+   "canopy": 0.0,
+   "flight": 60.0,
+   "front": 0.8,
+   "front_actual": 0.8,
+   "gsd_canopy_m": 0.0214622307256,
+   "gsd_ground_m": 0.0214622307256,
+   "mode": "12mp",
+   "side": 0.7,
+   "side_actual": 0.7
+  },
+  {
+   "above": 45.0,
+   "camera": "lito-x1",
+   "canopy": 15.0,
+   "flight": 60.0,
+   "front": 0.8,
+   "front_actual": 0.733333333333,
+   "gsd_canopy_m": 0.0160966730442,
+   "gsd_ground_m": 0.0214622307256,
+   "mode": "12mp",
+   "side": 0.7,
+   "side_actual": 0.6
+  },
+  {
+   "above": 55.0,
+   "camera": "lito-x1",
+   "canopy": 25.0,
+   "flight": 80.0,
+   "front": 0.8,
+   "front_actual": 0.709090909091,
+   "gsd_canopy_m": 0.0196737114985,
+   "gsd_ground_m": 0.0286163076342,
+   "mode": "12mp",
+   "side": 0.7,
+   "side_actual": 0.563636363636
+  },
+  {
+   "above": 70.0,
+   "camera": "lito-x1",
+   "canopy": 30.0,
+   "flight": 100.0,
+   "front": 0.8,
+   "front_actual": 0.714285714286,
+   "gsd_canopy_m": 0.0250392691799,
+   "gsd_ground_m": 0.0357703845427,
+   "mode": "12mp",
+   "side": 0.7,
+   "side_actual": 0.571428571429
+  }
+ ],
+ "height": [
+  {
+   "camera": "air-3",
+   "gsd_cm": 1.0,
+   "height": 27.9571259353,
+   "mode": "12mp"
+  },
+  {
+   "camera": "air-3",
+   "gsd_cm": 2.0,
+   "height": 55.9142518707,
+   "mode": "12mp"
+  },
+  {
+   "camera": "air-3",
+   "gsd_cm": 3.0,
+   "height": 83.871377806,
+   "mode": "12mp"
+  },
+  {
+   "camera": "air-3",
+   "gsd_cm": 1.0,
+   "height": 55.9142518707,
+   "mode": "48mp"
+  },
+  {
+   "camera": "air-3",
+   "gsd_cm": 2.0,
+   "height": 111.828503741,
+   "mode": "48mp"
+  },
+  {
+   "camera": "air-3",
+   "gsd_cm": 3.0,
+   "height": 167.742755612,
+   "mode": "48mp"
+  },
+  {
+   "camera": "air-3s",
+   "gsd_cm": 1.0,
+   "height": 28.4008898391,
+   "mode": "12mp"
+  },
+  {
+   "camera": "air-3s",
+   "gsd_cm": 2.0,
+   "height": 56.8017796782,
+   "mode": "12mp"
+  },
+  {
+   "camera": "air-3s",
+   "gsd_cm": 3.0,
+   "height": 85.2026695172,
+   "mode": "12mp"
+  },
+  {
+   "camera": "air-3s",
+   "gsd_cm": 1.0,
+   "height": 56.8017796782,
+   "mode": "50mp"
+  },
+  {
+   "camera": "air-3s",
+   "gsd_cm": 2.0,
+   "height": 113.603559356,
+   "mode": "50mp"
+  },
+  {
+   "camera": "air-3s",
+   "gsd_cm": 3.0,
+   "height": 170.405339034,
+   "mode": "50mp"
+  },
+  {
+   "camera": "lito-x1",
+   "gsd_cm": 1.0,
+   "height": 27.9560874948,
+   "mode": "12mp"
+  },
+  {
+   "camera": "lito-x1",
+   "gsd_cm": 2.0,
+   "height": 55.9121749897,
+   "mode": "12mp"
+  },
+  {
+   "camera": "lito-x1",
+   "gsd_cm": 3.0,
+   "height": 83.8682624845,
+   "mode": "12mp"
+  },
+  {
+   "camera": "lito-x1",
+   "gsd_cm": 1.0,
+   "height": 55.9121749897,
+   "mode": "48mp"
+  },
+  {
+   "camera": "lito-x1",
+   "gsd_cm": 2.0,
+   "height": 111.824349979,
+   "mode": "48mp"
+  },
+  {
+   "camera": "lito-x1",
+   "gsd_cm": 3.0,
+   "height": 167.736524969,
+   "mode": "48mp"
+  },
+  {
+   "camera": "mavic-3",
+   "gsd_cm": 1.0,
+   "height": 37.5093641618,
+   "mode": "20mp"
+  },
+  {
+   "camera": "mavic-3",
+   "gsd_cm": 2.0,
+   "height": 75.0187283237,
+   "mode": "20mp"
+  },
+  {
+   "camera": "mavic-3",
+   "gsd_cm": 3.0,
+   "height": 112.528092486,
+   "mode": "20mp"
+  },
+  {
+   "camera": "mavic-3-classic",
+   "gsd_cm": 1.0,
+   "height": 37.5093641618,
+   "mode": "20mp"
+  },
+  {
+   "camera": "mavic-3-classic",
+   "gsd_cm": 2.0,
+   "height": 75.0187283237,
+   "mode": "20mp"
+  },
+  {
+   "camera": "mavic-3-classic",
+   "gsd_cm": 3.0,
+   "height": 112.528092486,
+   "mode": "20mp"
+  },
+  {
+   "camera": "mavic-3-pro",
+   "gsd_cm": 1.0,
+   "height": 37.5093641618,
+   "mode": "20mp"
+  },
+  {
+   "camera": "mavic-3-pro",
+   "gsd_cm": 2.0,
+   "height": 75.0187283237,
+   "mode": "20mp"
+  },
+  {
+   "camera": "mavic-3-pro",
+   "gsd_cm": 3.0,
+   "height": 112.528092486,
+   "mode": "20mp"
+  },
+  {
+   "camera": "mavic-4-pro",
+   "gsd_cm": 1.0,
+   "height": 95.5733333333,
+   "mode": "100mp"
+  },
+  {
+   "camera": "mavic-4-pro",
+   "gsd_cm": 2.0,
+   "height": 191.146666667,
+   "mode": "100mp"
+  },
+  {
+   "camera": "mavic-4-pro",
+   "gsd_cm": 3.0,
+   "height": 286.72,
+   "mode": "100mp"
+  },
+  {
+   "camera": "mavic-4-pro",
+   "gsd_cm": 1.0,
+   "height": 47.7866666667,
+   "mode": "25mp"
+  },
+  {
+   "camera": "mavic-4-pro",
+   "gsd_cm": 2.0,
+   "height": 95.5733333333,
+   "mode": "25mp"
+  },
+  {
+   "camera": "mavic-4-pro",
+   "gsd_cm": 3.0,
+   "height": 143.36,
+   "mode": "25mp"
+  },
+  {
+   "camera": "mini-4-pro",
+   "gsd_cm": 1.0,
+   "height": 30.1928237129,
+   "mode": "12mp"
+  },
+  {
+   "camera": "mini-4-pro",
+   "gsd_cm": 2.0,
+   "height": 60.3856474259,
+   "mode": "12mp"
+  },
+  {
+   "camera": "mini-4-pro",
+   "gsd_cm": 3.0,
+   "height": 90.5784711388,
+   "mode": "12mp"
+  },
+  {
+   "camera": "mini-4-pro",
+   "gsd_cm": 1.0,
+   "height": 60.3856474259,
+   "mode": "48mp"
+  },
+  {
+   "camera": "mini-4-pro",
+   "gsd_cm": 2.0,
+   "height": 120.771294852,
+   "mode": "48mp"
+  },
+  {
+   "camera": "mini-4-pro",
+   "gsd_cm": 3.0,
+   "height": 181.156942278,
+   "mode": "48mp"
+  },
+  {
+   "camera": "mini-5-pro",
+   "gsd_cm": 1.0,
+   "height": 28.4008898391,
+   "mode": "12mp"
+  },
+  {
+   "camera": "mini-5-pro",
+   "gsd_cm": 2.0,
+   "height": 56.8017796782,
+   "mode": "12mp"
+  },
+  {
+   "camera": "mini-5-pro",
+   "gsd_cm": 3.0,
+   "height": 85.2026695172,
+   "mode": "12mp"
+  },
+  {
+   "camera": "mini-5-pro",
+   "gsd_cm": 1.0,
+   "height": 56.8017796782,
+   "mode": "50mp"
+  },
+  {
+   "camera": "mini-5-pro",
+   "gsd_cm": 2.0,
+   "height": 113.603559356,
+   "mode": "50mp"
+  },
+  {
+   "camera": "mini-5-pro",
+   "gsd_cm": 3.0,
+   "height": 170.405339034,
+   "mode": "50mp"
+  }
+ ],
+ "speed": [
+  {
+   "binding": "camera photo interval",
+   "camera": "lito-x1",
+   "feasible": true,
+   "front": 0.8,
+   "height": 40.0,
+   "limits": {
+    "blur": 7.15407690854,
+    "drone": 12.0,
+    "skew": 7.15407690854,
+    "trigger": 4.32678571429,
+    "wind": 12.0
+   },
+   "mode": "12mp",
+   "photo_m": 8.65357142857,
+   "shutter": 0.001,
+   "speed": 4.32678571429,
+   "wind": 0.0
+  },
+  {
+   "binding": "camera photo interval",
+   "camera": "lito-x1",
+   "feasible": true,
+   "front": 0.8,
+   "height": 40.0,
+   "limits": {
+    "blur": 7.15407690854,
+    "drone": 12.0,
+    "skew": 7.15407690854,
+    "trigger": 4.32678571429,
+    "wind": 7.0
+   },
+   "mode": "12mp",
+   "photo_m": 8.65357142857,
+   "shutter": 0.001,
+   "speed": 4.32678571429,
+   "wind": 5.0
+  },
+  {
+   "binding": "wind headroom",
+   "camera": "lito-x1",
+   "feasible": false,
+   "front": 0.8,
+   "height": 40.0,
+   "limits": {
+    "blur": 7.15407690854,
+    "drone": 12.0,
+    "skew": 7.15407690854,
+    "trigger": 4.32678571429,
+    "wind": 0.5
+   },
+   "mode": "12mp",
+   "photo_m": 8.65357142857,
+   "shutter": 0.001,
+   "speed": 1.0,
+   "wind": 11.5
+  },
+  {
+   "binding": "camera photo interval",
+   "camera": "lito-x1",
+   "feasible": true,
+   "front": 0.8,
+   "height": 40.0,
+   "limits": {
+    "blur": 14.3081538171,
+    "drone": 12.0,
+    "skew": 7.15407690854,
+    "trigger": 4.32678571429,
+    "wind": 12.0
+   },
+   "mode": "12mp",
+   "photo_m": 8.65357142857,
+   "shutter": 0.0005,
+   "speed": 4.32678571429,
+   "wind": 0.0
+  },
+  {
+   "binding": "camera photo interval",
+   "camera": "lito-x1",
+   "feasible": true,
+   "front": 0.8,
+   "height": 40.0,
+   "limits": {
+    "blur": 14.3081538171,
+    "drone": 12.0,
+    "skew": 7.15407690854,
+    "trigger": 4.32678571429,
+    "wind": 7.0
+   },
+   "mode": "12mp",
+   "photo_m": 8.65357142857,
+   "shutter": 0.0005,
+   "speed": 4.32678571429,
+   "wind": 5.0
+  },
+  {
+   "binding": "wind headroom",
+   "camera": "lito-x1",
+   "feasible": false,
+   "front": 0.8,
+   "height": 40.0,
+   "limits": {
+    "blur": 14.3081538171,
+    "drone": 12.0,
+    "skew": 7.15407690854,
+    "trigger": 4.32678571429,
+    "wind": 0.5
+   },
+   "mode": "12mp",
+   "photo_m": 8.65357142857,
+   "shutter": 0.0005,
+   "speed": 1.0,
+   "wind": 11.5
+  },
+  {
+   "binding": "camera photo interval",
+   "camera": "lito-x1",
+   "feasible": true,
+   "front": 0.7,
+   "height": 40.0,
+   "limits": {
+    "blur": 7.15407690854,
+    "drone": 12.0,
+    "skew": 7.15407690854,
+    "trigger": 6.49017857143,
+    "wind": 12.0
+   },
+   "mode": "12mp",
+   "photo_m": 12.9803571429,
+   "shutter": 0.001,
+   "speed": 6.49017857143,
+   "wind": 0.0
+  },
+  {
+   "binding": "camera photo interval",
+   "camera": "lito-x1",
+   "feasible": true,
+   "front": 0.7,
+   "height": 40.0,
+   "limits": {
+    "blur": 7.15407690854,
+    "drone": 12.0,
+    "skew": 7.15407690854,
+    "trigger": 6.49017857143,
+    "wind": 7.0
+   },
+   "mode": "12mp",
+   "photo_m": 12.9803571429,
+   "shutter": 0.001,
+   "speed": 6.49017857143,
+   "wind": 5.0
+  },
+  {
+   "binding": "wind headroom",
+   "camera": "lito-x1",
+   "feasible": false,
+   "front": 0.7,
+   "height": 40.0,
+   "limits": {
+    "blur": 7.15407690854,
+    "drone": 12.0,
+    "skew": 7.15407690854,
+    "trigger": 6.49017857143,
+    "wind": 0.5
+   },
+   "mode": "12mp",
+   "photo_m": 12.9803571429,
+   "shutter": 0.001,
+   "speed": 1.0,
+   "wind": 11.5
+  },
+  {
+   "binding": "camera photo interval",
+   "camera": "lito-x1",
+   "feasible": true,
+   "front": 0.7,
+   "height": 40.0,
+   "limits": {
+    "blur": 14.3081538171,
+    "drone": 12.0,
+    "skew": 7.15407690854,
+    "trigger": 6.49017857143,
+    "wind": 12.0
+   },
+   "mode": "12mp",
+   "photo_m": 12.9803571429,
+   "shutter": 0.0005,
+   "speed": 6.49017857143,
+   "wind": 0.0
+  },
+  {
+   "binding": "camera photo interval",
+   "camera": "lito-x1",
+   "feasible": true,
+   "front": 0.7,
+   "height": 40.0,
+   "limits": {
+    "blur": 14.3081538171,
+    "drone": 12.0,
+    "skew": 7.15407690854,
+    "trigger": 6.49017857143,
+    "wind": 7.0
+   },
+   "mode": "12mp",
+   "photo_m": 12.9803571429,
+   "shutter": 0.0005,
+   "speed": 6.49017857143,
+   "wind": 5.0
+  },
+  {
+   "binding": "wind headroom",
+   "camera": "lito-x1",
+   "feasible": false,
+   "front": 0.7,
+   "height": 40.0,
+   "limits": {
+    "blur": 14.3081538171,
+    "drone": 12.0,
+    "skew": 7.15407690854,
+    "trigger": 6.49017857143,
+    "wind": 0.5
+   },
+   "mode": "12mp",
+   "photo_m": 12.9803571429,
+   "shutter": 0.0005,
+   "speed": 1.0,
+   "wind": 11.5
+  },
+  {
+   "binding": "camera photo interval",
+   "camera": "lito-x1",
+   "feasible": true,
+   "front": 0.8,
+   "height": 80.0,
+   "limits": {
+    "blur": 14.3081538171,
+    "drone": 12.0,
+    "skew": 14.3081538171,
+    "trigger": 8.65357142857,
+    "wind": 12.0
+   },
+   "mode": "12mp",
+   "photo_m": 17.3071428571,
+   "shutter": 0.001,
+   "speed": 8.65357142857,
+   "wind": 0.0
+  },
+  {
+   "binding": "wind headroom",
+   "camera": "lito-x1",
+   "feasible": true,
+   "front": 0.8,
+   "height": 80.0,
+   "limits": {
+    "blur": 14.3081538171,
+    "drone": 12.0,
+    "skew": 14.3081538171,
+    "trigger": 8.65357142857,
+    "wind": 7.0
+   },
+   "mode": "12mp",
+   "photo_m": 17.3071428571,
+   "shutter": 0.001,
+   "speed": 7.0,
+   "wind": 5.0
+  },
+  {
+   "binding": "wind headroom",
+   "camera": "lito-x1",
+   "feasible": false,
+   "front": 0.8,
+   "height": 80.0,
+   "limits": {
+    "blur": 14.3081538171,
+    "drone": 12.0,
+    "skew": 14.3081538171,
+    "trigger": 8.65357142857,
+    "wind": 0.5
+   },
+   "mode": "12mp",
+   "photo_m": 17.3071428571,
+   "shutter": 0.001,
+   "speed": 1.0,
+   "wind": 11.5
+  },
+  {
+   "binding": "camera photo interval",
+   "camera": "lito-x1",
+   "feasible": true,
+   "front": 0.8,
+   "height": 80.0,
+   "limits": {
+    "blur": 28.6163076342,
+    "drone": 12.0,
+    "skew": 14.3081538171,
+    "trigger": 8.65357142857,
+    "wind": 12.0
+   },
+   "mode": "12mp",
+   "photo_m": 17.3071428571,
+   "shutter": 0.0005,
+   "speed": 8.65357142857,
+   "wind": 0.0
+  },
+  {
+   "binding": "wind headroom",
+   "camera": "lito-x1",
+   "feasible": true,
+   "front": 0.8,
+   "height": 80.0,
+   "limits": {
+    "blur": 28.6163076342,
+    "drone": 12.0,
+    "skew": 14.3081538171,
+    "trigger": 8.65357142857,
+    "wind": 7.0
+   },
+   "mode": "12mp",
+   "photo_m": 17.3071428571,
+   "shutter": 0.0005,
+   "speed": 7.0,
+   "wind": 5.0
+  },
+  {
+   "binding": "wind headroom",
+   "camera": "lito-x1",
+   "feasible": false,
+   "front": 0.8,
+   "height": 80.0,
+   "limits": {
+    "blur": 28.6163076342,
+    "drone": 12.0,
+    "skew": 14.3081538171,
+    "trigger": 8.65357142857,
+    "wind": 0.5
+   },
+   "mode": "12mp",
+   "photo_m": 17.3071428571,
+   "shutter": 0.0005,
+   "speed": 1.0,
+   "wind": 11.5
+  },
+  {
+   "binding": "wind headroom",
+   "camera": "lito-x1",
+   "feasible": true,
+   "front": 0.7,
+   "height": 80.0,
+   "limits": {
+    "blur": 14.3081538171,
+    "drone": 12.0,
+    "skew": 14.3081538171,
+    "trigger": 12.9803571429,
+    "wind": 12.0
+   },
+   "mode": "12mp",
+   "photo_m": 25.9607142857,
+   "shutter": 0.001,
+   "speed": 12.0,
+   "wind": 0.0
+  },
+  {
+   "binding": "wind headroom",
+   "camera": "lito-x1",
+   "feasible": true,
+   "front": 0.7,
+   "height": 80.0,
+   "limits": {
+    "blur": 14.3081538171,
+    "drone": 12.0,
+    "skew": 14.3081538171,
+    "trigger": 12.9803571429,
+    "wind": 7.0
+   },
+   "mode": "12mp",
+   "photo_m": 25.9607142857,
+   "shutter": 0.001,
+   "speed": 7.0,
+   "wind": 5.0
+  },
+  {
+   "binding": "wind headroom",
+   "camera": "lito-x1",
+   "feasible": false,
+   "front": 0.7,
+   "height": 80.0,
+   "limits": {
+    "blur": 14.3081538171,
+    "drone": 12.0,
+    "skew": 14.3081538171,
+    "trigger": 12.9803571429,
+    "wind": 0.5
+   },
+   "mode": "12mp",
+   "photo_m": 25.9607142857,
+   "shutter": 0.001,
+   "speed": 1.0,
+   "wind": 11.5
+  },
+  {
+   "binding": "wind headroom",
+   "camera": "lito-x1",
+   "feasible": true,
+   "front": 0.7,
+   "height": 80.0,
+   "limits": {
+    "blur": 28.6163076342,
+    "drone": 12.0,
+    "skew": 14.3081538171,
+    "trigger": 12.9803571429,
+    "wind": 12.0
+   },
+   "mode": "12mp",
+   "photo_m": 25.9607142857,
+   "shutter": 0.0005,
+   "speed": 12.0,
+   "wind": 0.0
+  },
+  {
+   "binding": "wind headroom",
+   "camera": "lito-x1",
+   "feasible": true,
+   "front": 0.7,
+   "height": 80.0,
+   "limits": {
+    "blur": 28.6163076342,
+    "drone": 12.0,
+    "skew": 14.3081538171,
+    "trigger": 12.9803571429,
+    "wind": 7.0
+   },
+   "mode": "12mp",
+   "photo_m": 25.9607142857,
+   "shutter": 0.0005,
+   "speed": 7.0,
+   "wind": 5.0
+  },
+  {
+   "binding": "wind headroom",
+   "camera": "lito-x1",
+   "feasible": false,
+   "front": 0.7,
+   "height": 80.0,
+   "limits": {
+    "blur": 28.6163076342,
+    "drone": 12.0,
+    "skew": 14.3081538171,
+    "trigger": 12.9803571429,
+    "wind": 0.5
+   },
+   "mode": "12mp",
+   "photo_m": 25.9607142857,
+   "shutter": 0.0005,
+   "speed": 1.0,
+   "wind": 11.5
+  },
+  {
+   "binding": "camera photo interval",
+   "camera": "lito-x1",
+   "feasible": true,
+   "front": 0.8,
+   "height": 40.0,
+   "limits": {
+    "blur": 3.57703845427,
+    "drone": 12.0,
+    "skew": 3.57703845427,
+    "trigger": 1.33131868132,
+    "wind": 12.0
+   },
+   "mode": "48mp",
+   "photo_m": 8.65357142857,
+   "shutter": 0.001,
+   "speed": 1.33131868132,
+   "wind": 0.0
+  },
+  {
+   "binding": "camera photo interval",
+   "camera": "lito-x1",
+   "feasible": true,
+   "front": 0.8,
+   "height": 40.0,
+   "limits": {
+    "blur": 3.57703845427,
+    "drone": 12.0,
+    "skew": 3.57703845427,
+    "trigger": 1.33131868132,
+    "wind": 7.0
+   },
+   "mode": "48mp",
+   "photo_m": 8.65357142857,
+   "shutter": 0.001,
+   "speed": 1.33131868132,
+   "wind": 5.0
+  },
+  {
+   "binding": "wind headroom",
+   "camera": "lito-x1",
+   "feasible": false,
+   "front": 0.8,
+   "height": 40.0,
+   "limits": {
+    "blur": 3.57703845427,
+    "drone": 12.0,
+    "skew": 3.57703845427,
+    "trigger": 1.33131868132,
+    "wind": 0.5
+   },
+   "mode": "48mp",
+   "photo_m": 8.65357142857,
+   "shutter": 0.001,
+   "speed": 1.0,
+   "wind": 11.5
+  },
+  {
+   "binding": "camera photo interval",
+   "camera": "lito-x1",
+   "feasible": true,
+   "front": 0.8,
+   "height": 40.0,
+   "limits": {
+    "blur": 7.15407690854,
+    "drone": 12.0,
+    "skew": 3.57703845427,
+    "trigger": 1.33131868132,
+    "wind": 12.0
+   },
+   "mode": "48mp",
+   "photo_m": 8.65357142857,
+   "shutter": 0.0005,
+   "speed": 1.33131868132,
+   "wind": 0.0
+  },
+  {
+   "binding": "camera photo interval",
+   "camera": "lito-x1",
+   "feasible": true,
+   "front": 0.8,
+   "height": 40.0,
+   "limits": {
+    "blur": 7.15407690854,
+    "drone": 12.0,
+    "skew": 3.57703845427,
+    "trigger": 1.33131868132,
+    "wind": 7.0
+   },
+   "mode": "48mp",
+   "photo_m": 8.65357142857,
+   "shutter": 0.0005,
+   "speed": 1.33131868132,
+   "wind": 5.0
+  },
+  {
+   "binding": "wind headroom",
+   "camera": "lito-x1",
+   "feasible": false,
+   "front": 0.8,
+   "height": 40.0,
+   "limits": {
+    "blur": 7.15407690854,
+    "drone": 12.0,
+    "skew": 3.57703845427,
+    "trigger": 1.33131868132,
+    "wind": 0.5
+   },
+   "mode": "48mp",
+   "photo_m": 8.65357142857,
+   "shutter": 0.0005,
+   "speed": 1.0,
+   "wind": 11.5
+  },
+  {
+   "binding": "camera photo interval",
+   "camera": "lito-x1",
+   "feasible": true,
+   "front": 0.7,
+   "height": 40.0,
+   "limits": {
+    "blur": 3.57703845427,
+    "drone": 12.0,
+    "skew": 3.57703845427,
+    "trigger": 1.99697802198,
+    "wind": 12.0
+   },
+   "mode": "48mp",
+   "photo_m": 12.9803571429,
+   "shutter": 0.001,
+   "speed": 1.99697802198,
+   "wind": 0.0
+  },
+  {
+   "binding": "camera photo interval",
+   "camera": "lito-x1",
+   "feasible": true,
+   "front": 0.7,
+   "height": 40.0,
+   "limits": {
+    "blur": 3.57703845427,
+    "drone": 12.0,
+    "skew": 3.57703845427,
+    "trigger": 1.99697802198,
+    "wind": 7.0
+   },
+   "mode": "48mp",
+   "photo_m": 12.9803571429,
+   "shutter": 0.001,
+   "speed": 1.99697802198,
+   "wind": 5.0
+  },
+  {
+   "binding": "wind headroom",
+   "camera": "lito-x1",
+   "feasible": false,
+   "front": 0.7,
+   "height": 40.0,
+   "limits": {
+    "blur": 3.57703845427,
+    "drone": 12.0,
+    "skew": 3.57703845427,
+    "trigger": 1.99697802198,
+    "wind": 0.5
+   },
+   "mode": "48mp",
+   "photo_m": 12.9803571429,
+   "shutter": 0.001,
+   "speed": 1.0,
+   "wind": 11.5
+  },
+  {
+   "binding": "camera photo interval",
+   "camera": "lito-x1",
+   "feasible": true,
+   "front": 0.7,
+   "height": 40.0,
+   "limits": {
+    "blur": 7.15407690854,
+    "drone": 12.0,
+    "skew": 3.57703845427,
+    "trigger": 1.99697802198,
+    "wind": 12.0
+   },
+   "mode": "48mp",
+   "photo_m": 12.9803571429,
+   "shutter": 0.0005,
+   "speed": 1.99697802198,
+   "wind": 0.0
+  },
+  {
+   "binding": "camera photo interval",
+   "camera": "lito-x1",
+   "feasible": true,
+   "front": 0.7,
+   "height": 40.0,
+   "limits": {
+    "blur": 7.15407690854,
+    "drone": 12.0,
+    "skew": 3.57703845427,
+    "trigger": 1.99697802198,
+    "wind": 7.0
+   },
+   "mode": "48mp",
+   "photo_m": 12.9803571429,
+   "shutter": 0.0005,
+   "speed": 1.99697802198,
+   "wind": 5.0
+  },
+  {
+   "binding": "wind headroom",
+   "camera": "lito-x1",
+   "feasible": false,
+   "front": 0.7,
+   "height": 40.0,
+   "limits": {
+    "blur": 7.15407690854,
+    "drone": 12.0,
+    "skew": 3.57703845427,
+    "trigger": 1.99697802198,
+    "wind": 0.5
+   },
+   "mode": "48mp",
+   "photo_m": 12.9803571429,
+   "shutter": 0.0005,
+   "speed": 1.0,
+   "wind": 11.5
+  },
+  {
+   "binding": "camera photo interval",
+   "camera": "lito-x1",
+   "feasible": true,
+   "front": 0.8,
+   "height": 80.0,
+   "limits": {
+    "blur": 7.15407690854,
+    "drone": 12.0,
+    "skew": 7.15407690854,
+    "trigger": 2.66263736264,
+    "wind": 12.0
+   },
+   "mode": "48mp",
+   "photo_m": 17.3071428571,
+   "shutter": 0.001,
+   "speed": 2.66263736264,
+   "wind": 0.0
+  },
+  {
+   "binding": "camera photo interval",
+   "camera": "lito-x1",
+   "feasible": true,
+   "front": 0.8,
+   "height": 80.0,
+   "limits": {
+    "blur": 7.15407690854,
+    "drone": 12.0,
+    "skew": 7.15407690854,
+    "trigger": 2.66263736264,
+    "wind": 7.0
+   },
+   "mode": "48mp",
+   "photo_m": 17.3071428571,
+   "shutter": 0.001,
+   "speed": 2.66263736264,
+   "wind": 5.0
+  },
+  {
+   "binding": "wind headroom",
+   "camera": "lito-x1",
+   "feasible": false,
+   "front": 0.8,
+   "height": 80.0,
+   "limits": {
+    "blur": 7.15407690854,
+    "drone": 12.0,
+    "skew": 7.15407690854,
+    "trigger": 2.66263736264,
+    "wind": 0.5
+   },
+   "mode": "48mp",
+   "photo_m": 17.3071428571,
+   "shutter": 0.001,
+   "speed": 1.0,
+   "wind": 11.5
+  },
+  {
+   "binding": "camera photo interval",
+   "camera": "lito-x1",
+   "feasible": true,
+   "front": 0.8,
+   "height": 80.0,
+   "limits": {
+    "blur": 14.3081538171,
+    "drone": 12.0,
+    "skew": 7.15407690854,
+    "trigger": 2.66263736264,
+    "wind": 12.0
+   },
+   "mode": "48mp",
+   "photo_m": 17.3071428571,
+   "shutter": 0.0005,
+   "speed": 2.66263736264,
+   "wind": 0.0
+  },
+  {
+   "binding": "camera photo interval",
+   "camera": "lito-x1",
+   "feasible": true,
+   "front": 0.8,
+   "height": 80.0,
+   "limits": {
+    "blur": 14.3081538171,
+    "drone": 12.0,
+    "skew": 7.15407690854,
+    "trigger": 2.66263736264,
+    "wind": 7.0
+   },
+   "mode": "48mp",
+   "photo_m": 17.3071428571,
+   "shutter": 0.0005,
+   "speed": 2.66263736264,
+   "wind": 5.0
+  },
+  {
+   "binding": "wind headroom",
+   "camera": "lito-x1",
+   "feasible": false,
+   "front": 0.8,
+   "height": 80.0,
+   "limits": {
+    "blur": 14.3081538171,
+    "drone": 12.0,
+    "skew": 7.15407690854,
+    "trigger": 2.66263736264,
+    "wind": 0.5
+   },
+   "mode": "48mp",
+   "photo_m": 17.3071428571,
+   "shutter": 0.0005,
+   "speed": 1.0,
+   "wind": 11.5
+  },
+  {
+   "binding": "camera photo interval",
+   "camera": "lito-x1",
+   "feasible": true,
+   "front": 0.7,
+   "height": 80.0,
+   "limits": {
+    "blur": 7.15407690854,
+    "drone": 12.0,
+    "skew": 7.15407690854,
+    "trigger": 3.99395604396,
+    "wind": 12.0
+   },
+   "mode": "48mp",
+   "photo_m": 25.9607142857,
+   "shutter": 0.001,
+   "speed": 3.99395604396,
+   "wind": 0.0
+  },
+  {
+   "binding": "camera photo interval",
+   "camera": "lito-x1",
+   "feasible": true,
+   "front": 0.7,
+   "height": 80.0,
+   "limits": {
+    "blur": 7.15407690854,
+    "drone": 12.0,
+    "skew": 7.15407690854,
+    "trigger": 3.99395604396,
+    "wind": 7.0
+   },
+   "mode": "48mp",
+   "photo_m": 25.9607142857,
+   "shutter": 0.001,
+   "speed": 3.99395604396,
+   "wind": 5.0
+  },
+  {
+   "binding": "wind headroom",
+   "camera": "lito-x1",
+   "feasible": false,
+   "front": 0.7,
+   "height": 80.0,
+   "limits": {
+    "blur": 7.15407690854,
+    "drone": 12.0,
+    "skew": 7.15407690854,
+    "trigger": 3.99395604396,
+    "wind": 0.5
+   },
+   "mode": "48mp",
+   "photo_m": 25.9607142857,
+   "shutter": 0.001,
+   "speed": 1.0,
+   "wind": 11.5
+  },
+  {
+   "binding": "camera photo interval",
+   "camera": "lito-x1",
+   "feasible": true,
+   "front": 0.7,
+   "height": 80.0,
+   "limits": {
+    "blur": 14.3081538171,
+    "drone": 12.0,
+    "skew": 7.15407690854,
+    "trigger": 3.99395604396,
+    "wind": 12.0
+   },
+   "mode": "48mp",
+   "photo_m": 25.9607142857,
+   "shutter": 0.0005,
+   "speed": 3.99395604396,
+   "wind": 0.0
+  },
+  {
+   "binding": "camera photo interval",
+   "camera": "lito-x1",
+   "feasible": true,
+   "front": 0.7,
+   "height": 80.0,
+   "limits": {
+    "blur": 14.3081538171,
+    "drone": 12.0,
+    "skew": 7.15407690854,
+    "trigger": 3.99395604396,
+    "wind": 7.0
+   },
+   "mode": "48mp",
+   "photo_m": 25.9607142857,
+   "shutter": 0.0005,
+   "speed": 3.99395604396,
+   "wind": 5.0
+  },
+  {
+   "binding": "wind headroom",
+   "camera": "lito-x1",
+   "feasible": false,
+   "front": 0.7,
+   "height": 80.0,
+   "limits": {
+    "blur": 14.3081538171,
+    "drone": 12.0,
+    "skew": 7.15407690854,
+    "trigger": 3.99395604396,
+    "wind": 0.5
+   },
+   "mode": "48mp",
+   "photo_m": 25.9607142857,
+   "shutter": 0.0005,
+   "speed": 1.0,
+   "wind": 11.5
+  }
+ ],
+ "survey": [
+  {
+   "battery_min": 20.0,
+   "binding": "camera photo interval",
+   "camera": "lito-x1",
+   "front": 0.8,
+   "height": 40.0,
+   "interval_s": 2.01245847176,
+   "length": 120.0,
+   "line_m": 17.3071428571,
+   "missions": [
+    {
+     "minutes": 3.97990599603,
+     "photos": 88
+    }
+   ],
+   "mode": "12mp",
+   "photo_m": 8.65357142857,
+   "shutter": 0.001,
+   "side": 0.7,
+   "speed": 4.3,
+   "strips": 5,
+   "total_minutes": 3.97990599603,
+   "total_photos": 88,
+   "width": 80.0,
+   "wind": 0.0
+  },
+  {
+   "battery_min": 20.0,
+   "binding": "camera photo interval",
+   "camera": "lito-x1",
+   "front": 0.8,
+   "height": 60.0,
+   "interval_s": 2.02818080357,
+   "length": 300.0,
+   "line_m": 25.9607142857,
+   "missions": [
+    {
+     "minutes": 7.03116817849,
+     "photos": 161
+    }
+   ],
+   "mode": "12mp",
+   "photo_m": 12.9803571429,
+   "shutter": 0.001,
+   "side": 0.7,
+   "speed": 6.4,
+   "strips": 6,
+   "total_minutes": 7.03116817849,
+   "total_photos": 161,
+   "width": 150.0,
+   "wind": 0.0
+  },
+  {
+   "battery_min": 20.0,
+   "binding": "camera photo interval",
+   "camera": "lito-x1",
+   "front": 0.75,
+   "height": 50.0,
+   "interval_s": 2.01809035181,
+   "length": 200.0,
+   "line_m": 25.2395833333,
+   "missions": [
+    {
+     "minutes": 6.24485205683,
+     "photos": 148
+    }
+   ],
+   "mode": "12mp",
+   "photo_m": 13.5212053571,
+   "shutter": 0.001,
+   "side": 0.65,
+   "speed": 6.7,
+   "strips": 8,
+   "total_minutes": 6.24485205683,
+   "total_photos": 148,
+   "width": 200.0,
+   "wind": 0.0
+  },
+  {
+   "battery_min": 20.0,
+   "binding": "camera photo interval",
+   "camera": "lito-x1",
+   "front": 0.8,
+   "height": 80.0,
+   "interval_s": 2.01245847176,
+   "length": 600.0,
+   "line_m": 34.6142857143,
+   "missions": [
+    {
+     "minutes": 17.8726128555,
+     "photos": 463
+    }
+   ],
+   "mode": "12mp",
+   "photo_m": 17.3071428571,
+   "shutter": 0.001,
+   "side": 0.7,
+   "speed": 8.6,
+   "strips": 12,
+   "total_minutes": 17.8726128555,
+   "total_photos": 463,
+   "width": 400.0,
+   "wind": 0.0
+  },
+  {
+   "battery_min": 15.0,
+   "binding": "camera photo interval",
+   "camera": "lito-x1",
+   "front": 0.8,
+   "height": 100.0,
+   "interval_s": 2.00314153439,
+   "length": 500.0,
+   "line_m": 43.2678571429,
+   "missions": [
+    {
+     "minutes": 8.33150291467,
+     "photos": 188
+    }
+   ],
+   "mode": "12mp",
+   "photo_m": 21.6339285714,
+   "shutter": 0.001,
+   "side": 0.7,
+   "speed": 10.8,
+   "strips": 7,
+   "total_minutes": 8.33150291467,
+   "total_photos": 188,
+   "width": 300.0,
+   "wind": 0.0
+  },
+  {
+   "battery_min": 10.0,
+   "binding": "camera photo interval",
+   "camera": "lito-x1",
+   "front": 0.8,
+   "height": 60.0,
+   "interval_s": 2.02818080357,
+   "length": 800.0,
+   "line_m": 25.9607142857,
+   "missions": [
+    {
+     "minutes": 9.72418699223,
+     "photos": 195
+    },
+    {
+     "minutes": 9.56312388065,
+     "photos": 195
+    },
+    {
+     "minutes": 9.46576166203,
+     "photos": 195
+    },
+    {
+     "minutes": 9.44081110843,
+     "photos": 195
+    },
+    {
+     "minutes": 9.49047662853,
+     "photos": 195
+    },
+    {
+     "minutes": 9.61025680984,
+     "photos": 195
+    },
+    {
+     "minutes": 7.52862768963,
+     "photos": 130
+    }
+   ],
+   "mode": "12mp",
+   "photo_m": 12.9803571429,
+   "shutter": 0.001,
+   "side": 0.7,
+   "speed": 6.4,
+   "strips": 20,
+   "total_minutes": 64.8232447713,
+   "total_photos": 1300,
+   "width": 500.0,
+   "wind": 0.0
+  }
+ ]
+}

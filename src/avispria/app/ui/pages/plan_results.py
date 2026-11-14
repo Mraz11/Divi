@@ -1,0 +1,150 @@
+# SPDX-FileCopyrightText: 2026 Dīvi contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+"""What the Plan a flight screen shows once a plan exists (or was blocked)."""
+
+from __future__ import annotations
+
+from collections.abc import Sequence
+from datetime import datetime
+from pathlib import Path
+
+from nicegui import ui
+
+from avispria.app.ui.charts import route_map
+from avispria.app.ui.files import open_in_file_manager
+from avispria.app.ui.plan_job import PlanJobResult
+from avispria.app.ui.views import Verdict, explain_issues
+from avispria.app.ui.views_results import dji_fly_should_show, plan_tiles, plan_verdict
+from avispria.app.ui.widgets import echart, issue_cards, tile_row, verdict_banner
+from avispria.core.mission import Mission
+from avispria.core.safety import Issue
+from avispria.core.sun import describe_window, good_window
+
+FLY_FILE_HELP = (
+    "On your phone, open DJI Fly, choose Waypoint Flight, add two points and save the mission "
+    "(do not fly it). Then connect the phone with the USB cable and press 'Get it from my phone' "
+    "above, or copy the .kmz file DJI Fly made for it to this computer by hand: "
+    "Android/data/dji.go.v5/files/waypoint/<long ID>/<long ID>.kmz. Dīvi copies the exact "
+    "format your DJI Fly uses from this file."
+)
+
+COMPARE_HELP = (
+    "Open each mission in DJI Fly and compare: the waypoints, the length and the time at the "
+    "bottom of its map should match the last column (the time is the route divided by the speed, "
+    "not counting the climb and the way back). If they do not, do not fly it."
+)
+
+HOW_TO_FLY = (
+    "Open DJI Fly, choose Waypoint Flight, add two points and save the mission. This creates "
+    "a mission folder on your phone.",
+    "Press 'Send to DJI Fly...' below: the Phone screen replaces that mission with your plan "
+    "(USB cable or Wi-Fi) and keeps the original. Or, by hand: copy one of the .kmz files above "
+    "into Android/data/dji.go.v5/files/waypoint/<long ID>/ renamed to the long ID, replacing "
+    "the file that is there (keep a backup of the original).",
+    "Reopen DJI Fly, open the mission and compare the number of waypoints and the heights with "
+    "the spot-check sheet (a .csv next to each .kmz) before you take off.",
+)
+
+
+def light_note(first: object) -> None:
+    """When to fly here today: the sun decides how much ground and gap the photos see."""
+    lat, lon = getattr(first, "lat", None), getattr(first, "lon", None)
+    if lat is None or lon is None:
+        return
+    zone = datetime.now().astimezone().tzinfo
+    today = datetime.now(zone).date()
+    window = good_window(today, lat, lon, zone)  # type: ignore[arg-type]
+    with ui.card().classes("w-full av-note-info").mark("light-window"):
+        ui.label(describe_window(window, today)).classes("font-medium")
+        ui.label(
+            "Low sun hides the ground in long shadows (canopy heights suffer) and forces slow, "
+            "blurring shutters. Times are this computer's clock."
+        ).classes("text-sm")
+
+
+def show_plan(box: ui.column, result: PlanJobResult, out_dir: Path) -> None:
+    with box:
+        if result.outputs is None:
+            verdict_banner(
+                Verdict("problem", "This plan cannot be flown as asked", "Nothing was saved.")
+            )
+            ui.label("Why").classes("text-lg font-bold")
+            issue_cards(explain_issues(result.blocked))
+            return
+        outputs = result.outputs
+        plan = outputs.result
+        verdict_banner(plan_verdict(outputs.warnings))
+        if plan.summary.photo_interval_s is not None:
+            with ui.card().classes("w-full av-note-info"):
+                ui.label(
+                    f"In DJI Fly, set the camera to timed shot every "
+                    f"{plan.summary.photo_interval_s:.1f} seconds (or shorter) before you start."
+                ).classes("font-medium")
+        else:
+            missions = len(plan.missions)
+            with ui.card().classes("w-full av-note-info").mark("photo-waypoint-note"):
+                ui.label(
+                    "A photo is taken at every photo waypoint: the camera needs no timed shot."
+                ).classes("font-medium")
+                if missions > 1:
+                    ui.label(
+                        f"This plan is in {missions} missions, so you need {missions} placeholder "
+                        "missions (slots) in DJI Fly. The Phone screen sends them all in one go."
+                    ).classes("text-sm")
+        light_note(plan.missions[0].waypoints[0] if plan.missions else None)
+        tile_row(plan_tiles(plan))
+        ui.label("The route").classes("text-lg font-bold")
+        ui.label(
+            "The dashed line is your survey area; each coloured line is one mission (one "
+            "battery). The route goes a little beyond the area so the turns happen outside it."
+        ).classes("text-sm av-muted")
+        if result.aoi is not None:
+            echart(
+                lambda palette: route_map(plan, result.aoi, result.takeoff, result.photos, palette)
+            )
+        missions_section(plan.missions, outputs.kmz_paths, outputs.warnings, out_dir)
+
+
+def missions_section(
+    missions: Sequence[Mission], kmz_paths: Sequence[Path], warnings: Sequence[Issue], out_dir: Path
+) -> None:
+    """The missions table, the notes, how to get them onto the drone, and the buttons."""
+    ui.label("Missions").classes("text-lg font-bold")
+    columns = [
+        {"name": "file", "label": "File", "field": "file", "align": "left"},
+        {"name": "waypoints", "label": "Waypoints", "field": "waypoints"},
+        {"name": "minutes", "label": "Flying time", "field": "minutes"},
+        {"name": "height", "label": "Highest point above takeoff", "field": "height"},
+        {"name": "dji", "label": "DJI Fly should show", "field": "dji", "align": "left"},
+    ]
+    rows = [
+        {
+            "file": path.name,
+            "waypoints": len(m.waypoints),
+            "minutes": f"about {m.estimated_duration_s / 60:.0f} min",
+            "height": f"{max(w.height_m for w in m.waypoints):.0f} m",
+            "dji": dji_fly_should_show(m),
+        }
+        for m, path in zip(missions, kmz_paths, strict=True)
+    ]
+    ui.table(columns=columns, rows=rows, row_key="file").classes("w-full")
+    ui.label(COMPARE_HELP).classes("text-sm av-muted").mark("compare-help")
+    if warnings:
+        ui.label("Notes about this plan").classes("text-lg font-bold")
+        issue_cards(explain_issues(warnings))
+    with ui.expansion("How do I get these missions onto my drone?", icon="phone_android").classes(
+        "w-full border"
+    ):
+        for n, step in enumerate(HOW_TO_FLY, start=1):
+            ui.label(f"{n}. {step}").classes("text-sm")
+    ui.label(f"Saved in {out_dir}").classes("text-sm av-muted break-all")
+    with ui.row().classes("gap-2"):
+        ui.button(
+            "Send to DJI Fly...", icon="send", on_click=lambda: ui.navigate.to("/phone")
+        ).props("no-caps").mark("to-phone")
+        ui.button(
+            "Open the folder",
+            icon="folder_open",
+            color="secondary",
+            on_click=lambda: open_in_file_manager(out_dir),
+        ).props("no-caps")

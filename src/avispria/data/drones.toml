@@ -1,0 +1,247 @@
+# Aircraft and camera profiles: the DJI camera drones with native waypoint flight (DJI's list of
+# waypoint drones; waypointmap.com supported drones), RGB camera only.
+# Every value states its source; `verified = false` means it has not yet been confirmed on real
+# hardware for this project. Confirm camera values from an original photo with:
+#   divi camera-from-photo
+#
+# waypoint_limit: DJI Fly's own limit per mission. It warns above 200 (seen in DJI Fly on a
+#   508-waypoint mission, 2026-11-13), so Dīvi never writes more; a longer plan is split.
+# mission_app: where a waypoint mission for this drone is flown.
+#   "dji-fly"     DJI Fly waypoint flight (Dīvi writes these missions)
+#   "waypoint-pro" a drone whose waypoints are flown in another app (none listed now); Dīvi cannot
+#                  write those missions
+# mechanical_shutter: a global (mechanical) shutter has no rolling-shutter skew; readout_s is
+#   then a token 0.001 s so the speed rule ignores it.
+# Sensor sizes marked "35 mm equivalent" are not the real sensor: with the 35 mm-equivalent
+#   focal length they give exactly the same ground resolution and photo footprint (only the
+#   ratio sensor size / focal length matters), and DJI does not publish the real focal length.
+
+[mavic-4-pro]
+name = "DJI Mavic 4 Pro (and 512GB)"
+# camera_model: not yet seen in a real photo
+max_speed_ms = 25.0            # DJI spec top speed; waypoint missions may be slower
+drone_enum = 68                # DJI Fly waypoint missions share one value (FlyPath plugin notes)
+waypoint_limit = 200
+mission_app = "dji-fly"
+mechanical_shutter = false
+verified = false
+notes = "Hasselblad 4/3 100 MP, 28 mm equivalent, FOV 72 deg, 12288x8192 (DJI spec sheet). Top speed 25 m/s (S mode). Waypoint flight in DJI Fly."
+
+[mavic-4-pro.modes.25mp]
+sensor_width_mm = 36.0        # 35 mm equivalent (see the top of this file)
+sensor_height_mm = 24.0
+focal_mm = 28.0
+image_width_px = 6144
+image_height_px = 4096
+min_interval_s = 2.0           # assumed; measure with a probe flight
+readout_s = 0.03
+
+[mavic-4-pro.modes.100mp]
+sensor_width_mm = 36.0        # 35 mm equivalent (see the top of this file)
+sensor_height_mm = 24.0
+focal_mm = 28.0
+image_width_px = 12288
+image_height_px = 8192
+min_interval_s = 7.0           # assumed; measure with a probe flight
+readout_s = 0.03
+
+[mavic-3-pro]
+name = "DJI Mavic 3 Pro / Mavic 3 Pro Cine"
+camera_model = "L2D-20c"
+max_speed_ms = 21.0            # DJI spec, S mode; waypoint missions may be slower
+drone_enum = 68                # DJI Fly waypoint missions share one value (FlyPath plugin notes)
+waypoint_limit = 200
+mission_app = "dji-fly"
+verified = false
+notes = "Hasselblad 4/3 20 MP (L2D-20c), 24 mm equivalent, 5280x3956. Sensor 17.3 x 13.0 mm, focal 12.29 mm (published calibration). Waypoint flight in DJI Fly."
+
+[mavic-3-pro.modes.20mp]
+sensor_width_mm = 17.3
+sensor_height_mm = 13.0
+focal_mm = 12.29
+image_width_px = 5280
+image_height_px = 3956
+min_interval_s = 2.0           # assumed; measure with a probe flight
+readout_s = 0.03               # OpenDroneMap default for unknown cameras
+
+[mavic-3]
+name = "DJI Mavic 3 / Mavic 3 Cine"
+camera_model = "L2D-20c"
+max_speed_ms = 21.0            # DJI spec, S mode; waypoint missions may be slower
+drone_enum = 68                # DJI Fly waypoint missions share one value (FlyPath plugin notes)
+waypoint_limit = 200
+mission_app = "dji-fly"
+verified = false
+notes = "Hasselblad 4/3 20 MP (L2D-20c), 24 mm equivalent, 5280x3956. Sensor 17.3 x 13.0 mm, focal 12.29 mm (published calibration). Waypoint flight in DJI Fly."
+
+[mavic-3.modes.20mp]
+sensor_width_mm = 17.3
+sensor_height_mm = 13.0
+focal_mm = 12.29
+image_width_px = 5280
+image_height_px = 3956
+min_interval_s = 2.0           # assumed; measure with a probe flight
+readout_s = 0.03               # OpenDroneMap default for unknown cameras
+
+[mavic-3-classic]
+name = "DJI Mavic 3 Classic"
+camera_model = "L2D-20c"
+max_speed_ms = 21.0            # DJI spec, S mode; waypoint missions may be slower
+drone_enum = 68                # DJI Fly waypoint missions share one value (FlyPath plugin notes)
+waypoint_limit = 200
+mission_app = "dji-fly"
+verified = false
+notes = "Hasselblad 4/3 20 MP (L2D-20c), 24 mm equivalent, 5280x3956. Sensor 17.3 x 13.0 mm, focal 12.29 mm (published calibration). Waypoint flight in DJI Fly."
+
+[mavic-3-classic.modes.20mp]
+sensor_width_mm = 17.3
+sensor_height_mm = 13.0
+focal_mm = 12.29
+image_width_px = 5280
+image_height_px = 3956
+min_interval_s = 2.0           # assumed; measure with a probe flight
+readout_s = 0.03               # OpenDroneMap default for unknown cameras
+
+[air-3s]
+name = "DJI Air 3S"
+# camera_model: not yet seen in a real photo
+max_speed_ms = 21.0            # DJI spec top speed; waypoint missions may be slower
+drone_enum = 68                # DJI Fly waypoint missions share one value (FlyPath plugin notes)
+waypoint_limit = 200
+mission_app = "dji-fly"
+mechanical_shutter = false
+verified = false
+notes = "Wide camera 1-inch 50 MP, 24 mm equivalent, FOV 84 deg, 8192x6144 (DJI specs page). Top speed 21 m/s (19 m/s in the EU). Waypoint flight in DJI Fly."
+
+[air-3s.modes.12mp]
+sensor_width_mm = 34.613        # 35 mm equivalent (see the top of this file)
+sensor_height_mm = 25.96
+focal_mm = 24.0
+image_width_px = 4096
+image_height_px = 3072
+min_interval_s = 2.0           # assumed; measure with a probe flight
+readout_s = 0.03
+
+[air-3s.modes.50mp]
+sensor_width_mm = 34.613        # 35 mm equivalent (see the top of this file)
+sensor_height_mm = 25.96
+focal_mm = 24.0
+image_width_px = 8192
+image_height_px = 6144
+min_interval_s = 5.0           # assumed; measure with a probe flight
+readout_s = 0.03
+
+[air-3]
+name = "DJI Air 3"
+# camera_model: not yet seen in a real photo
+max_speed_ms = 21.0            # DJI spec top speed; waypoint missions may be slower
+drone_enum = 68                # DJI Fly waypoint missions share one value (FlyPath plugin notes)
+waypoint_limit = 200
+mission_app = "dji-fly"
+mechanical_shutter = false
+verified = false
+notes = "Wide camera 1/1.3-inch 48 MP, 24 mm equivalent (the 70 mm camera is not used for mapping). Waypoint flight in DJI Fly."
+
+[air-3.modes.12mp]
+sensor_width_mm = 34.613        # 35 mm equivalent (see the top of this file)
+sensor_height_mm = 25.96
+focal_mm = 24.0
+image_width_px = 4032
+image_height_px = 3024
+min_interval_s = 2.0           # assumed; measure with a probe flight
+readout_s = 0.03
+
+[air-3.modes.48mp]
+sensor_width_mm = 34.613        # 35 mm equivalent (see the top of this file)
+sensor_height_mm = 25.96
+focal_mm = 24.0
+image_width_px = 8064
+image_height_px = 6048
+min_interval_s = 5.0           # assumed; measure with a probe flight
+readout_s = 0.03
+
+[mini-5-pro]
+name = "DJI Mini 5 Pro"
+# camera_model: not yet seen in a real photo
+max_speed_ms = 18.0            # DJI spec top speed; waypoint missions may be slower
+drone_enum = 68                # DJI Fly waypoint missions share one value (FlyPath plugin notes)
+waypoint_limit = 200
+mission_app = "dji-fly"
+mechanical_shutter = false
+verified = false
+notes = "1-inch 50 MP, 24 mm equivalent, f/1.8, 8192x6144 (retailer copy of DJI specs). Waypoint flight in DJI Fly (DroneDJ, Jan 2026). Top speed 18 m/s (S mode, standard battery)."
+
+[mini-5-pro.modes.12mp]
+sensor_width_mm = 34.613        # 35 mm equivalent (see the top of this file)
+sensor_height_mm = 25.96
+focal_mm = 24.0
+image_width_px = 4096
+image_height_px = 3072
+min_interval_s = 2.0           # assumed; measure with a probe flight
+readout_s = 0.03
+
+[mini-5-pro.modes.50mp]
+sensor_width_mm = 34.613        # 35 mm equivalent (see the top of this file)
+sensor_height_mm = 25.96
+focal_mm = 24.0
+image_width_px = 8192
+image_height_px = 6144
+min_interval_s = 5.0           # assumed; measure with a probe flight
+readout_s = 0.03
+
+[mini-4-pro]
+name = "DJI Mini 4 Pro"
+camera_model = "FC8482"
+max_speed_ms = 16.0            # retailer spec listing
+drone_enum = 68                # FlyPath: verified from a native RC 2 mission dump
+waypoint_limit = 200
+mission_app = "dji-fly"
+verified = false
+notes = "Camera FC8482. Geometry from a published calibration profile."
+
+[mini-4-pro.modes.12mp]
+sensor_width_mm = 8.974
+sensor_height_mm = 6.717
+focal_mm = 6.72
+image_width_px = 4032
+image_height_px = 3024
+min_interval_s = 2.0
+readout_s = 0.03
+
+[mini-4-pro.modes.48mp]
+sensor_width_mm = 8.974
+sensor_height_mm = 6.717
+focal_mm = 6.72
+image_width_px = 8064
+image_height_px = 6048
+min_interval_s = 5.0
+readout_s = 0.03
+
+[lito-x1]
+name = "DJI Lito X1"
+camera_model = "FC9589"        # EXIF Model of the founder's Lito X1 photos (verified)
+max_speed_ms = 12.0            # DJI Fly SPEEDCapability.json for waypoint missions (verified)
+drone_enum = 68                # observed in a DJI Fly mission from a Lito X1 (verified)
+waypoint_limit = 200
+mission_app = "dji-fly"
+verified = true                # geometry from EXIF of original DNGs; timing still to measure
+photo_action_verified = true   # Take Photo at a waypoint, read from missions made in DJI Fly (docs/field/dji-fly-mission-format.md)
+notes = "FC9589 1/1.3-inch 48 MP, electronic (rolling) shutter. Sensor size from EXIF focal 6.72 mm and 35 mm-equivalent 24 mm (CIPA diagonal definition). Waypoint speed 0.1-12 m/s, gimbal -90..+40 from DJI Fly capability files."
+
+[lito-x1.modes.12mp]
+sensor_width_mm = 9.692        # from EXIF (FocalLength 6.72, FocalLengthIn35mmFormat 24)
+sensor_height_mm = 7.269
+focal_mm = 6.72                # EXIF FocalLength (verified)
+image_width_px = 4032          # 12 MP mode is 2x2 binned 48 MP; dimensions per DJI spec
+image_height_px = 3024
+min_interval_s = 2.0           # assumed; measure with a probe flight
+readout_s = 0.03               # OpenDroneMap default for unknown cameras
+
+[lito-x1.modes.48mp]
+sensor_width_mm = 9.692
+sensor_height_mm = 7.269
+focal_mm = 6.72
+image_width_px = 8064          # verified from DNG full-resolution SubIFD
+image_height_px = 6048
+min_interval_s = 6.5           # measured: first real flight, 5-7 s between photos (verified)
+readout_s = 0.03

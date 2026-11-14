@@ -1,0 +1,32 @@
+name: Security
+
+# Known vulnerabilities in the locked dependencies: on every change to the lock file, and weekly,
+# because new advisories appear for versions that were fine yesterday.
+on:
+  push:
+    branches: [main]
+    paths: [uv.lock, pyproject.toml, .github/workflows/security.yml]
+  pull_request:
+    paths: [uv.lock, pyproject.toml]
+  schedule:
+    - cron: "17 3 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7.0.1
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v10.0.1
+
+      - name: Export the locked dependencies (all extras)
+        run: uv export --frozen --all-extras --no-hashes --no-emit-project --format requirements-txt > requirements-audit.txt
+
+      - name: Check them against the Python advisory database
+        run: uvx --from pip-audit==2.7.3 pip-audit -r requirements-audit.txt --disable-pip --no-deps --progress-spinner off

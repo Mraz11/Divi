@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: >-
+  If you use Dīvi, or publish results made with it, please cite it using these
+  metadata. A journal article will replace this entry when it is published.
+title: "Dīvi: mapping and measuring forests, farms and towns with consumer RGB drones"
+type: software
+version: 0.0.1
+license: AGPL-3.0-or-later
+repository-code: "https://github.com/Mraz11/Divi"
+url: "https://github.com/Mraz11/Divi"
+authors:
+  # Put the name you publish under here before the first release (see docs/LICENSING.md).
+  - family-names: "REPLACE_ME"
+    given-names: "REPLACE_ME"
+abstract: >-
+  Flight planning for DJI Fly, photo checks, processing with WebODM, and
+  quality-checked tree, canopy and land-cover measurements with stated
+  uncertainty, for consumer RGB drones. Runs on the user's own computer.
+keywords:
+  - drone
+  - photogrammetry
+  - forestry
+  - canopy height
+  - biomass
+  - remote sensing
