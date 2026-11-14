@@ -25,7 +25,7 @@ dependencies = [
   "shapely>=2.0",
   "pyproj>=3.6",
   # <1.5: rasterio 1.5 macOS wheels require macOS 15+. Revisit (see HANDOFF.md).
-  "rasterio>=1.4.3,<1.5",
+  "rasterio>=1.4.3,<1.6",
   "lxml>=5.0",
   "typer>=0.12",
   "nicegui>=2.0",
