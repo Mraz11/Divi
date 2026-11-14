@@ -21,7 +21,7 @@ classifiers = [
 dependencies = [
   # <2.5: rasterio 1.4 read() relies on array-shape assignment, deprecated in NumPy 2.5.
   # Lift together with the rasterio cap once rasterio supports NumPy 2.5+.
-  "numpy>=1.26,<2.5",
+  "numpy>=1.26,<2.6",
   "shapely>=2.0",
   "pyproj>=3.6",
   # <1.5: rasterio 1.5 macOS wheels require macOS 15+. Revisit (see HANDOFF.md).
