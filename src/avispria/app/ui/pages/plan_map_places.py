@@ -19,6 +19,7 @@ from nicegui import ui
 from avispria.adapters.geocode import DEFAULT_SERVICE, Place, search_places
 from avispria.app.ui.inputs import parse_latlon_text
 from avispria.app.ui.jobs import run_job
+from avispria.app.ui.notes import notify_at
 from avispria.app.ui.pages.plan_map_text import (
     BACKGROUND_NOTE,
     OSM_ATTRIBUTION,
@@ -94,7 +95,7 @@ class PlacesMixin:
         try:
             lat, lon = parse_latlon_text(text)
         except ValueError as exc:
-            ui.notify(str(exc), type="warning")
+            notify_at(self.map, str(exc), "warning")
             return
         self.map.set_center((lat, lon))
         self.map.set_zoom(16)
@@ -103,7 +104,7 @@ class PlacesMixin:
         """Coordinates go straight there; anything else is a place name, searched for."""
         text = (self.goto.value or "").strip()
         if not text:
-            ui.notify("Type a place name, or latitude and longitude.", type="warning")
+            notify_at(self.map, "Type a place name, or latitude and longitude.", "warning")
             return
         if looks_like_coordinates(text):
             self.go_to(text)

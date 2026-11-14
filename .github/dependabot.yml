@@ -7,6 +7,13 @@ updates:
     schedule:
       interval: weekly
     open-pull-requests-limit: 5
+    ignore:
+      # rasterio 1.5 publishes macOS builds for macOS 15+ only; Dīvi keeps 1.4 so older Macs
+      # can install it, and NumPy below 2.5 with it (pyproject.toml). Lift both together.
+      - dependency-name: rasterio
+        versions: [">=1.5"]
+      - dependency-name: numpy
+        versions: [">=2.5"]
   - package-ecosystem: github-actions
     directory: /
     schedule:

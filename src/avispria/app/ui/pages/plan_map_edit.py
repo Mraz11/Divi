@@ -19,6 +19,7 @@ from typing import Any
 
 from nicegui import events, ui
 
+from avispria.app.ui.notes import notify_at
 from avispria.app.ui.pages.plan_map_full import PAN_HINT, FullScreenMixin
 from avispria.core.shapes import DrawnShape, ShapeError, reshape, with_radius
 
@@ -159,7 +160,7 @@ class EditingMixin(FullScreenMixin):
             radius = args.get("radius")
             new = reshape(shape, points, None if radius is None else float(radius))
         except (ShapeError, TypeError, ValueError) as exc:
-            ui.notify(f"That change was not kept: {exc}", type="warning")
+            notify_at(self.map, f"That change was not kept: {exc}", "warning")
             self._forget_layer(shape.id)  # drawn again as it was, with fresh handles
             self._refresh()
             return
@@ -175,7 +176,7 @@ class EditingMixin(FullScreenMixin):
         try:
             new = with_radius(shape, float(value))
         except ShapeError as exc:
-            ui.notify(str(exc), type="warning")
+            notify_at(self.map, str(exc), "warning")
             return
         self._remember((shape.id, "radius"))
         self._swap(new)
@@ -185,7 +186,7 @@ class EditingMixin(FullScreenMixin):
     def pick_takeoff(self) -> None:
         """The next click on the map puts the take-off pin there."""
         self.picking_takeoff = True
-        ui.notify("Click the map where the drone will take off.", type="info")
+        notify_at(self.map, "Click the map where the drone will take off.", "info")
 
     def _map_click(self, e: events.GenericEventArguments) -> None:
         """A click puts the take-off pin (after "Click to set take-off"); otherwise nothing."""

@@ -25,6 +25,7 @@ from shapely.ops import unary_union
 
 from avispria.app.ui.drafts import recall, remember
 from avispria.app.ui.map_events import event_layer, parse_layer
+from avispria.app.ui.notes import notify_at
 from avispria.app.ui.pages.plan_form_parts import select_fit
 from avispria.app.ui.pages.plan_map_edit import EDIT_CSS, EditingMixin
 from avispria.app.ui.pages.plan_map_layers import MAP_JS, LayersMixin
@@ -131,7 +132,7 @@ class AreaMap(EditingMixin, LayersMixin, PlacesMixin):
             layer_type, layer = event_layer(e.args)
             self.add_drawn(layer_type, layer)
         except ValueError as exc:
-            ui.notify(f"That shape was not used: {exc}", type="warning")
+            notify_at(self.map, f"That shape was not used: {exc}", "warning")
 
     def add_drawn(self, layer_type: str, layer: Any) -> None:
         """A shape was drawn (or, in tests, handed over): keep it and show what it does."""

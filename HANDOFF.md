@@ -637,3 +637,17 @@ Every link now points to `github.com/Mraz11/Divi` and the phone page to `mraz11.
 (CITATION.cff, COMMERCIAL.md, README, citation.py, the geocoder's user agent, the field page and the
 Fly screen). The README's install steps said `cd Dīvi` after cloning; the folder a clone makes is
 `Divi`, so they now say that.
+
+## Patch 0068: NiceGUI 4.0, and the rasterio/NumPy limits restored (2026-11-14)
+
+The founder merged Dependabot's updates on GitHub, including NiceGUI 4.0.0 and rasterio 1.5.2 with
+NumPy 2.5.4. NiceGUI 4.0 is kept: (1) it no longer brings httpx, which the real-server test uses,
+so httpx and psutil are now explicit dev dependencies; (2) messages shown from map event handlers
+need the page they belong to, so `ui/notes.notify_at(anchor, text)` shows them from the map
+element (8 call sites in plan_map*.py and plan_pin_map.py). Checked in a real browser: drawing an
+area, right-drag panning, the pin, full screen and Escape all work. Its DOM ids are now `ng-<n>`
+(was `c<n>`); Dīvi's own JS uses `getElement(<number>)`, which still works. rasterio 1.5 is
+reverted to 1.4.4 and NumPy to 2.4.6: rasterio 1.5.2 ships macOS wheels for macOS 15+ only, which
+would stop older Macs installing Dīvi. `.github/dependabot.yml` now ignores rasterio >=1.5 and
+NumPy >=2.5; lift both caps together when rasterio has wheels for older macOS (or the project
+decides macOS 15+ is acceptable).
